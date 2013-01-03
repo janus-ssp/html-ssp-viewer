@@ -14,29 +14,23 @@
         <h1>simpleSAMLphp Management</h1>
         <p class="lead">This application makes it possible to manage simpleSAMLphp's metadata registrations.</p>
 
-        <div id="groupList">
-            <!-- <div id="groupListPagination">
-            </div> -->
-
+        <div id="metadataList">
             <div id="metadataListTable">
             </div>
         </div>
 
-        <div id="memberList">
-            <div id="memberListModal" tabindex="-1" class="modal hide">
+        <div id="entryList">
+            <div id="entryListModal" tabindex="-1" class="modal hide">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3>Member List</h3>
+                    <h3>Configuration</h3>
                 </div>
                 <div class="modal-body">
-                    <div id="memberListPagination">
-                    </div>
-
-                    <div id="memberListTable">
+                    <div id="entryListTable">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn" data-toggle="modal" data-target="#memberListModal">Close</a>
+                    <a href="#" class="btn" data-toggle="modal" data-target="#entryListModal">Close</a>
                 </div>
             </div>
 
@@ -47,77 +41,61 @@
     <script id="metadataListTemplate" type="text/x-jsrender">
         <table class="table table-striped table-bordered">
             <thead>
-                <tr><th>Name</th><!-- <th>Role</th> --></tr>
+                <tr><th>Name</th></tr>
             </thead>
             	<tbody>
             {{for entry}}
                 <tr>
                     <td>
-                        <a href="#" data-metadata-id="{{>id}}" title="{{>entityid}}">{{>entityid}}</a>
+                        <a href="#" data-set="{{>#parent.parent.data.set}}" data-id="{{>id}}" title="{{>entityid}}">{{>entityid}}</a>
                         {{if description}}
                             <small class="muted">{{>description}}</small>
                         {{/if}}
                     </td>
-                    <!-- <td>{{>voot_membership_role}}</td> -->
                 </tr>
             {{/for}}
             </tbody>
-            <!-- <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <small class="muted">You are member of <em>{{>totalResults}}</em> {{if totalResults === 1}}group{{else}}groups{{/if}}.</small>
-                    </td>
-                </tr>
-            </tfoot> -->
         </table>
     </script>
 
-    <script id="memberListTemplate" type="text/x-jsrender">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr><th>Member</th><th>Role</th></tr>
-            </thead>
-            <tbody>
-            {{for entry}}
-                <tr>
-                    <td>
-                        {{if displayName}}
-                            <span title="{{>id}}">{{>displayName}}</span>
-           		        {{else}}
-                            <span>{{>id}}</span>
-                        {{/if}}
-                        {{if mail}}
-                            <small class="muted"><a href="mailto:{{>mail}}">{{>mail}}</a></small>
-                        {{/if}}
-                    </td>
-                    <td>{{>voot_membership_role}}</td>
-                </tr>
-            {{/for}}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <small class="muted">This group has <em>{{>totalResults}}</em> {{if totalResults === 1}}member{{else}}members{{/if}}.</small>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </script>
+    <script id="entryListTemplate" type="text/x-jsrender">
+        <form>
 
-    <script id="paginationTemplate" type="text/x-jsrender">
-        <div class="pagination pagination-mini pagination-centered">
-            <ul>
-                {{for numberList}}
-                    {{if activePage === pageNumber}}
-                        <li class="disabled">
-                    {{else}}
-                        <li>
-                    {{/if}}
-                        <a href="#" data-group-id="{{>groupId}}" data-page-number="{{>pageNumber}}">{{>pageNumber+1}}</a>
-                    </li>
-                {{/for}}
-            </ul>
-        </div>
+            <div class="control-group">
+                <label class="control-label" for="form_entityId"><strong>Entity ID</strong></label>
+                <div class="controls">
+                    <input type="text" id="form_entityId" class="input-xlarge" name="entityid" value="{{>entityid}}" placeholder="Entity ID...">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="form_SingleSignOnService"><strong>SingleSignOnService</strong></label>
+                <div class="controls">
+                    <input type="text" id="form_SingleSignOnService" class="input-xlarge" name="SingleSignOnService" value="{{>SingleSignOnService}}" placeholder="SingleSignOnService...">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="form_certFingerprint"><strong>certFingerprint</strong></label>
+                <div class="controls">
+                    <input type="text" id="form_certFingerprint" class="input-xlarge" name="certFingerprint" value="{{>certFingerprint}}" placeholder="certFingerprint...">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="form_AssertionConsumerService"><strong>AssertionConsumerService</strong></label>
+                <div class="controls">
+                    <input type="text" id="form_AssertionConsumerService" class="input-xlarge" name="AssertionConsumerService" value="{{>AssertionConsumerService}}" placeholder="AssertionConsumerService...">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="form_SingleLogoutService"><strong>SingleLogoutService</strong></label>
+                <div class="controls">
+                    <input type="text" id="form_SingleLogoutService" class="input-xlarge" name="entityid" value="{{>SingleLogoutService}}" placeholder="SingleLogoutService...">
+                </div>
+            </div>
+    </form>
     </script>
 
     <script src="ext/js/jquery.js"></script>
