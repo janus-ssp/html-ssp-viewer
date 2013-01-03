@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Group Membership</title>
+    <title>simpleSAMLphp Management</title>
     <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="ext/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
@@ -11,14 +11,14 @@
 <body>
     <div class="container">
 
-        <h1>Group Membership</h1>
-        <p class="lead">This application makes it possible to view the groups you are a member of and its members.</p>
+        <h1>simpleSAMLphp Management</h1>
+        <p class="lead">This application makes it possible to manage simpleSAMLphp's metadata registrations.</p>
 
         <div id="groupList">
-            <div id="groupListPagination">
-            </div>
+            <!-- <div id="groupListPagination">
+            </div> -->
 
-            <div id="groupListTable">
+            <div id="metadataListTable">
             </div>
         </div>
 
@@ -44,31 +44,31 @@
 
     </div> <!-- /container -->
 
-    <script id="groupListTemplate" type="text/x-jsrender">
+    <script id="metadataListTemplate" type="text/x-jsrender">
         <table class="table table-striped table-bordered">
             <thead>
-                <tr><th>Group</th><th>Role</th></tr>
+                <tr><th>Name</th><!-- <th>Role</th> --></tr>
             </thead>
             	<tbody>
             {{for entry}}
                 <tr>
                     <td>
-                        <a href="#" data-group-id="{{>id}}" title="{{>id}}">{{>title}}</a>
+                        <a href="#" data-metadata-id="{{>id}}" title="{{>entityid}}">{{>entityid}}</a>
                         {{if description}}
                             <small class="muted">{{>description}}</small>
                         {{/if}}
                     </td>
-                    <td>{{>voot_membership_role}}</td>
+                    <!-- <td>{{>voot_membership_role}}</td> -->
                 </tr>
             {{/for}}
             </tbody>
-            <tfoot>
+            <!-- <tfoot>
                 <tr>
                     <td colspan="2">
                         <small class="muted">You are member of <em>{{>totalResults}}</em> {{if totalResults === 1}}group{{else}}groups{{/if}}.</small>
                     </td>
                 </tr>
-            </tfoot>
+            </tfoot> -->
         </table>
     </script>
 

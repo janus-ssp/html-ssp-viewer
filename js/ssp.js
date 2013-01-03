@@ -1,38 +1,35 @@
 $(document).ready(function () {
 
-    var apiScope = ["read"];
+    var apiScope = ["ssp"];
 
     jso_configure({
-        "html-voot-client": {
+        "html-manage-ssp": {
             client_id: apiClientId,
             authorization: authorizeEndpoint
         }
     });
     jso_ensureTokens({
-        "html-voot-client": apiScope
+        "html-manage-ssp": apiScope
     });
 
 
-    function renderGroupList(startIndex) {
+    function renderMetadataList(set) {
         $.oajax({
-            url: apiEndpoint + "/groups/@me" + 
-                "?startIndex=" + startIndex + 
-                "&count=" + maxPageLength + 
-                "&sortBy=title",
-            jso_provider: "html-voot-client",
+            url: apiEndpoint + "/" + set + "/",
+            jso_provider: "html-manage-ssp",
             jso_scopes: apiScope,
             jso_allowia: true,
             dataType: 'json',
             success: function (data) {
-                $("#groupListTable").html($("#groupListTemplate").render(data));
-                if(data.totalResults > maxPageLength) {
+                $("#metadataListTable").html($("#metadataListTemplate").render({ entry: data}));
+                // if(data.totalResults > maxPageLength) {
                     // show pagination stuff
-                    var d = {numberList: []};
-                    for(var i = 0; i < Math.ceil(data.totalResults / maxPageLength); i++) {
-                        d.numberList.push({'pageNumber': i, activePage: Math.ceil(startIndex / maxPageLength)});
-                    }
-                    $("#groupListPagination").html($("#paginationTemplate").render(d));
-                }
+                //    var d = {numberList: []};
+                 //   for(var i = 0; i < Math.ceil(data.totalResults / maxPageLength); i++) {
+                  //      d.numberList.push({'pageNumber': i, activePage: Math.ceil(startIndex / maxPageLength)});
+                   // }
+                   // $("#groupListPagination").html($("#paginationTemplate").render(d));
+                //}
             }
         });
     }
@@ -43,7 +40,7 @@ $(document).ready(function () {
                 "?startIndex=" + startIndex + 
                 "&count=" + maxPageLength +
                 "&sortBy=displayName",
-            jso_provider: "html-voot-client",
+            jso_provider: "html-manage-ssp",
             jso_scopes: apiScope,
             jso_allowia: true,
             dataType: 'json',
@@ -77,7 +74,7 @@ $(document).ready(function () {
     });
 
     function initPage() {
-        renderGroupList(0);
+        renderMetadataList('saml20-sp-remote');
     }
     initPage();
 });
