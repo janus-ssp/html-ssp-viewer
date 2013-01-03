@@ -1,0 +1,6 @@
+// specify the maximum number of items per page
+var maxPageLength     = 5;
+
+var apiClientId       = 'html-manage-ssp';
+var authorizeEndpoint = 'http://localhost/php-oauth/authorize.php';
+var apiEndpoint       = 'http://localhost/php-ssp-api/api.php';
