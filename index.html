@@ -14,26 +14,23 @@
         <h1>simpleSAMLphp Management</h1>
         <p class="lead">This application makes it possible to manage simpleSAMLphp's metadata registrations.</p>
 
+        <ul class="nav nav-pills">
+            <li>
+                <a href="#" id="listIdPs">Identity Providers</a>
+            </li>
+            <li>
+                <a href="#" id="listSPs">Service Providers</a>
+            </li>
+        </ul>
+
         <div id="metadataList">
             <div id="metadataListTable">
             </div>
         </div>
 
-        <div id="entryList">
-            <div id="entryListModal" tabindex="-1" class="modal hide">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3>Configuration</h3>
-                </div>
-                <div class="modal-body">
-                    <div id="entryListTable">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn" data-toggle="modal" data-target="#entryListModal">Close</a>
-                </div>
+        <div id="entityView">
+            <div id="entityViewModal" tabindex="-1" class="modal hide">
             </div>
-
         </div>
 
     </div> <!-- /container -->
@@ -44,10 +41,10 @@
                 <tr><th>Name</th></tr>
             </thead>
             	<tbody>
-            {{for entry}}
+            {{for entry ~set=set}}
                 <tr>
                     <td>
-                        <a href="#" data-set="{{>#parent.parent.data.set}}" data-id="{{>id}}" title="{{>entityid}}">{{>entityid}}</a>
+                        <a href="#" data-set="{{>~set}}" data-id="{{>id}}" title="{{>entityid}}">{{>entityid}}</a>
                         {{if description}}
                             <small class="muted">{{>description}}</small>
                         {{/if}}
@@ -58,44 +55,85 @@
         </table>
     </script>
 
-    <script id="entryListTemplate" type="text/x-jsrender">
-        <form>
+    <script id="entityViewModalTemplate" type="text/x-jsrender">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <ul class="nav nav-pills">
+                <li class="active">
+                    <a href="#" id="basic" title="Basic Configuration Options">Basic</a>
+                </li>
+                <li>
+                    <a href="#" id="acl" title="Access Control List">ACL</a>
+                </li>
+                {{if set === 'saml20-sp-remote'}}
+                    <li>
+                        <a href="#" id="arp" title="Attribute Release Policy">ARP</a>
+                    </li>
+                {{/if}}
+                <li>
+                    <a href="#" id="advanced" title="Advanced Configuration">Advanced</a>
+                </li>
 
-            <div class="control-group">
-                <label class="control-label" for="form_entityId"><strong>Entity ID</strong></label>
-                <div class="controls">
-                    <input type="text" id="form_entityId" class="input-xlarge" name="entityid" value="{{>entityid}}" placeholder="Entity ID...">
+            </ul>
+        </div>
+        <div class="modal-body">
+           
+            <form>
+                <div class="control-group">
+                    <label class="control-label" for="form_name"><strong>Name</strong></label>
+                    <div class="controls">
+                        <input type="text" id="form_name" class="input-xlarge" name="name" value="{{>entry.name}}" placeholder="Name...">
+                    </div>
                 </div>
-            </div>
 
-            <div class="control-group">
-                <label class="control-label" for="form_SingleSignOnService"><strong>SingleSignOnService</strong></label>
-                <div class="controls">
-                    <input type="text" id="form_SingleSignOnService" class="input-xlarge" name="SingleSignOnService" value="{{>SingleSignOnService}}" placeholder="SingleSignOnService...">
+                <div class="control-group">
+                    <label class="control-label" for="form_entityId"><strong>Entity ID</strong></label>
+                    <div class="controls">
+                        <input type="text" id="form_entityId" class="input-xlarge" name="entityid" value="{{>entry.entityid}}" placeholder="Entity ID...">
+                    </div>
                 </div>
-            </div>
 
-            <div class="control-group">
-                <label class="control-label" for="form_certFingerprint"><strong>certFingerprint</strong></label>
-                <div class="controls">
-                    <input type="text" id="form_certFingerprint" class="input-xlarge" name="certFingerprint" value="{{>certFingerprint}}" placeholder="certFingerprint...">
+                {{if set === 'saml20-idp-remote'}}
+                <div class="control-group">
+                    <label class="control-label" for="form_SingleSignOnService"><strong>SingleSignOnService</strong></label>
+                    <div class="controls">
+                        <input type="text" id="form_SingleSignOnService" class="input-xlarge" name="SingleSignOnService" value="{{>entry.SingleSignOnService}}" placeholder="SingleSignOnService...">
+                    </div>
                 </div>
-            </div>
+                {{/if}}
 
-            <div class="control-group">
-                <label class="control-label" for="form_AssertionConsumerService"><strong>AssertionConsumerService</strong></label>
-                <div class="controls">
-                    <input type="text" id="form_AssertionConsumerService" class="input-xlarge" name="AssertionConsumerService" value="{{>AssertionConsumerService}}" placeholder="AssertionConsumerService...">
+                {{if set === 'saml20-idp-remote'}}
+                <div class="control-group">
+                    <label class="control-label" for="form_certFingerprint"><strong>certFingerprint</strong></label>
+                    <div class="controls">
+                        <input type="text" id="form_certFingerprint" class="input-xlarge" name="certFingerprint" value="{{>entry.certFingerprint}}" placeholder="certFingerprint...">
+                    </div>
                 </div>
-            </div>
+                {{/if}}
 
-            <div class="control-group">
-                <label class="control-label" for="form_SingleLogoutService"><strong>SingleLogoutService</strong></label>
-                <div class="controls">
-                    <input type="text" id="form_SingleLogoutService" class="input-xlarge" name="entityid" value="{{>SingleLogoutService}}" placeholder="SingleLogoutService...">
+                {{if set === 'saml20-sp-remote'}}
+                <div class="control-group">
+                    <label class="control-label" for="form_AssertionConsumerService"><strong>AssertionConsumerService</strong></label>
+                    <div class="controls">
+                        <input type="text" id="form_AssertionConsumerService" class="input-xlarge" name="AssertionConsumerService" value="{{>entry.AssertionConsumerService}}" placeholder="AssertionConsumerService...">
+                    </div>
                 </div>
-            </div>
-    </form>
+                {{/if}}
+
+                {{if set === 'saml20-idp-remote'}}               
+                <div class="control-group">
+                    <label class="control-label" for="form_SingleLogoutService"><strong>SingleLogoutService</strong></label>
+                    <div class="controls">
+                        <input type="text" id="form_SingleLogoutService" class="input-xlarge" name="entityid" value="{{>entry.SingleLogoutService}}" placeholder="SingleLogoutService...">
+                    </div>
+                </div>
+                {{/if}}
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-toggle="modal" data-target="#entityViewModal">Close</a>
+        </div>
     </script>
 
     <script src="ext/js/jquery.js"></script>

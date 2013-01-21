@@ -21,7 +21,7 @@ $(document).ready(function () {
             jso_allowia: true,
             dataType: 'json',
             success: function (data) {
-                $("#metadataListTable").html($("#metadataListTemplate").render({ set: set, entry: data}));
+                $("#metadataListTable").html($("#metadataListTemplate").render({set: set, entry: data}));
             }
         });
     }
@@ -34,8 +34,8 @@ $(document).ready(function () {
             jso_allowia: true,
             dataType: 'json',
             success: function (data) {
-                $("#entryListTable").html($("#entryListTemplate").render(data));
-                $("#entryListModal").modal('show');
+                $("#entityViewModal").html($("#entityViewModalTemplate").render({set: set, entry: data}));
+                $("#entityViewModal").modal('show');
             }
         });
     }
@@ -44,8 +44,21 @@ $(document).ready(function () {
         renderEntryList($(this).data('set'), $(this).data('id'));
     });
 
+    $(document).on('click', '#listIdPs', function() {
+        renderMetadataList('saml20-idp-remote');
+        $("ul.nav").children().removeClass("active");
+        $(this).parent().addClass("active");
+    });
+
+    $(document).on('click', '#listSPs', function() {
+        renderMetadataList('saml20-sp-remote');
+        $("ul.nav").children().removeClass("active");
+        $(this).parent().addClass("active");
+    });
+
     function initPage() {
         renderMetadataList('saml20-idp-remote');
+        $("ul.nav").children().first().addClass("active");
     }
     initPage();
 });
