@@ -59,82 +59,169 @@
         </table>
     </script>
 
-    <script id="entityViewModalTemplate" type="text/x-jsrender">
+    <script id="entityViewIdentityProviderModalTemplate" type="text/x-jsrender">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <ul class="nav nav-pills">
+            <ul class="entitynav nav nav-pills">
                 <li class="active">
-                    <a href="#" id="basic" title="Basic Configuration Options">Basic</a>
-                </li>
-                <li>
-                    <a href="#" id="acl" title="Access Control List">ACL</a>
-                </li>
-                {{if set === 'saml20-sp-remote'}}
-                    <li>
-                        <a href="#" id="arp" title="Attribute Release Policy">ARP</a>
-                    </li>
-                {{/if}}
-                <li>
-                    <a href="#" id="advanced" title="Advanced Configuration">Advanced</a>
+                    <a href="#" id="basicButton" data-id="{{>id}}" data-set="{{>set}}" title="Basic Configuration Options">Basic</a>
                 </li>
 
+                <li>
+                    <a href="#" id="aclButton" data-id="{{>id}}" data-set="{{>set}}" title="Access Control List">ACL</a>
+                </li>
+
+                <li>
+                    <a href="#" id="advancedButton" data-id="{{>id}}" data-set="{{>set}}" title="Advanced Configuration">Advanced</a>
+                </li>
             </ul>
         </div>
         <div class="modal-body">
-           
-            <form>
-                <div class="control-group">
+            <form id="basicForm">
+                <fieldset>
+                <!-- <legend>Basic</legend> -->
+                    <div class="control-group">
+                        <label class="control-label" for="form_name"><strong>Name</strong></label>
+                        <div class="controls">
+                            <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name}}" placeholder="Name...">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="form_entityId"><strong>Entity ID</strong></label>
+                        <div class="controls">
+                            <input type="text" id="form_entityId" class="input-block-level" name="entityid" value="{{>entry.entityid}}" placeholder="Entity ID...">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="form_SingleSignOnService"><strong>Single Signon Service (SSO)</strong></label>
+                        <div class="controls">
+                            <input type="text" id="form_SingleSignOnService" class="input-block-level" name="SingleSignOnService" value="{{>entry.SingleSignOnService}}" placeholder="SingleSignOnService...">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="form_SingleLogoutService"><strong>Single Logout Service (SLO)</strong></label>
+                        <div class="controls">
+                            <input type="text" id="form_SingleLogoutService" class="input-block-level" name="entityid" value="{{>entry.SingleLogoutService}}" placeholder="SingleLogoutService...">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="form_certFingerprint"><strong>Certificate Fingerprint</strong></label>
+                        <div class="controls">
+                            <input type="text" id="form_certFingerprint" class="input-block-level" name="certFingerprint" value="{{>entry.certFingerprint}}" placeholder="certFingerprint...">
+                        </div>
+                    </div>
+                </fieldset>
+
+            </form>
+
+            <form id="aclForm" class="hide">
+                <fieldset>
+                <!-- <legend>ACL</legend> -->
+                    {{for entry.ServiceProviders}}
+                        <label class="checkbox">
+                        <input type="checkbox" name="enableSP[]" value="{{>entityid}}">
+                        <span title="{{>entityid}}">{{>name}}</span>
+                        </label>
+                    {{/for}}
+                </fieldset>
+            </form>
+
+            <form id="advancedForm" class="hide">
+                <fieldset>
+                <!-- <legend>ACL</legend> -->
+                    <textarea class="input-block-level" rows="10" name="jsonData">{{>entry.jsonData}}</textarea>
+                </fieldset>
+            </form>
+
+        </div>
+
+        <div class="modal-footer">
+            <a href="#" class="btn" data-toggle="modal" data-target="#entityViewModal">Close</a>
+        </div>
+    </script>
+
+    <script id="entityViewServiceProviderModalTemplate" type="text/x-jsrender">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <ul class="entitynav nav nav-pills">
+                <li class="active">
+                    <a href="#" id="basicButton" data-id="{{>id}}" data-set="{{>set}}" title="Basic Configuration Options">Basic</a>
+                </li>
+
+                <li>
+                    <a href="#" id="aclButton" data-id="{{>id}}" data-set="{{>set}}" title="Access Control List">ACL</a>
+                </li>
+
+                <li>
+                    <a href="#" id="arpButton" data-id="{{>id}}" data-set="{{>set}}" title="Attribute Release Policy">ARP</a>
+                </li>
+
+                <li>
+                    <a href="#" id="advancedButton" data-id="{{>id}}" data-set="{{>set}}" title="Advanced Configuration">Advanced</a>
+                </li>
+            </ul>
+        </div>
+        <div class="modal-body">
+            <form id="basicForm">
+                 <div class="control-group">
                     <label class="control-label" for="form_name"><strong>Name</strong></label>
                     <div class="controls">
-                        <input type="text" id="form_name" class="input-xlarge" name="name" value="{{>entry.name}}" placeholder="Name...">
+                        <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name}}" placeholder="Name...">
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label" for="form_entityId"><strong>Entity ID</strong></label>
                     <div class="controls">
-                        <input type="text" id="form_entityId" class="input-xlarge" name="entityid" value="{{>entry.entityid}}" placeholder="Entity ID...">
+                        <input type="text" id="form_entityId" class="input-block-level" name="entityid" value="{{>entry.entityid}}" placeholder="Entity ID...">
                     </div>
                 </div>
 
-                {{if set === 'saml20-idp-remote'}}
-                <div class="control-group">
-                    <label class="control-label" for="form_SingleSignOnService"><strong>SingleSignOnService</strong></label>
-                    <div class="controls">
-                        <input type="text" id="form_SingleSignOnService" class="input-xlarge" name="SingleSignOnService" value="{{>entry.SingleSignOnService}}" placeholder="SingleSignOnService...">
-                    </div>
-                </div>
-                {{/if}}
-
-                {{if set === 'saml20-idp-remote'}}
-                <div class="control-group">
-                    <label class="control-label" for="form_certFingerprint"><strong>certFingerprint</strong></label>
-                    <div class="controls">
-                        <input type="text" id="form_certFingerprint" class="input-xlarge" name="certFingerprint" value="{{>entry.certFingerprint}}" placeholder="certFingerprint...">
-                    </div>
-                </div>
-                {{/if}}
-
-                {{if set === 'saml20-sp-remote'}}
                 <div class="control-group">
                     <label class="control-label" for="form_AssertionConsumerService"><strong>AssertionConsumerService</strong></label>
                     <div class="controls">
-                        <input type="text" id="form_AssertionConsumerService" class="input-xlarge" name="AssertionConsumerService" value="{{>entry.AssertionConsumerService}}" placeholder="AssertionConsumerService...">
+                        <input type="text" id="form_AssertionConsumerService" class="input-block-level" name="AssertionConsumerService" value="{{>entry.AssertionConsumerService}}" placeholder="AssertionConsumerService...">
                     </div>
                 </div>
-                {{/if}}
+            </form>
 
-                {{if set === 'saml20-idp-remote'}}               
-                <div class="control-group">
-                    <label class="control-label" for="form_SingleLogoutService"><strong>SingleLogoutService</strong></label>
-                    <div class="controls">
-                        <input type="text" id="form_SingleLogoutService" class="input-xlarge" name="entityid" value="{{>entry.SingleLogoutService}}" placeholder="SingleLogoutService...">
-                    </div>
-                </div>
-                {{/if}}
+            <form id="aclForm" class="hide">
+                <fieldset>
+                <!-- <legend>ACL</legend> -->
+                    {{for entry.IdentityProviders}}
+                        <label class="checkbox">
+                        <input type="checkbox" name="enableIdP[]" value="{{>entityid}}">
+                        <span title="{{>entityid}}">{{>name}}</span>
+                        </label>
+                    {{/for}}
+                </fieldset>
+            </form>
+
+            <form id="arpForm" class="hide">
+                <fieldset>
+                <!-- <legend>ARP</legend> -->
+                    {{for entry.arp}}
+                        <label class="checkbox">
+                        <input type="checkbox" name="enableAttribute[]" value="{{>attribute}}">
+                        <span title="{{>attribute}}">{{>attribute}}</span>
+                        </label>
+                    {{/for}}
+                </fieldset>
+            </form>
+
+            <form id="advancedForm" class="hide">
+                <fieldset>
+                <!-- <legend>ACL</legend> -->
+                    <textarea class="input-block-level" rows="10" name="jsonData">{{>entry.jsonData}}</textarea>
+                </fieldset>
             </form>
 
         </div>
+
         <div class="modal-footer">
             <a href="#" class="btn" data-toggle="modal" data-target="#entityViewModal">Close</a>
         </div>
