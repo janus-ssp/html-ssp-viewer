@@ -30,7 +30,7 @@ $(document).ready(function () {
 
     function renderEntity(set, id) {
         $.oajax({
-            url: apiEndpoint + "/" + set + "/" + id,
+            url: apiEndpoint + "/" + set + "/entity?id=" + id,
             jso_provider: "html-manage-ssp",
             jso_scopes: apiScope,
             jso_allowia: true,
