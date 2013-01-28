@@ -35,6 +35,9 @@ For example, for your situation it may need to be this:
     var authorizeEndpoint = 'https://www.example.org/php-oauth/authorize.php';
     var apiEndpoint = 'https://www.example.org/php-ssp-api/api.php';
 
+Also, copy the `config/attributes.js.default` to config/attributes.js` and 
+modify it to suit your attribute names.
+
 ## Client Registration
 Also, make sure that this client is registered in your OAuth server. The following
 information will be relevant:

@@ -45,32 +45,30 @@ $(document).ready(function () {
                         jso_allowia: true,
                         dataType: 'json',
                         success: function (idpData) {
-                            data.arp = [];
-                            data.attributes.forEach(function(v, k) {
-                                data.arp.push({attribute: v});
+                            attributeList = [];
+
+                            // add the "default" attributes to the list
+                            allAttributes.forEach(function(v) {
+                                attributeList.push({attribute: v, enabled: false, custom: false});
                             });
+
+                            if(data.attributes) {
+                                data.attributes.forEach(function(v, k) {
+                                    // add the attribute to the attributeList if it is not
+                                    // not there, or enable it if it is there
+                                    var idx = allAttributes.indexOf(v);
+                                    if(-1 !== idx) {
+                                        attributeList[idx].enabled = true;
+                                    } else {
+                                        attributeList.push({attribute: v, enabled: true, custom: true});
+                                    }
+                                });
+                            }
+
                             data.jsonData = JSON.stringify(data);
-                            data.IdentityProviders = idpData;
-                            
-                            /*data.arp = [{
-                                "attribute": "uid",
-                                "on": false
-                            }, {
-                                "attribute": "displayName",
-                                "on": true
-                            }, {
-                                "attribute": "eduPersonPrincipalName",
-                                "on": false
-                            }, {
-                                "attribute": "eduPersonEntitlement",
-                                "on": true
-                            }, {
-                                "attribute": "mail",
-                                "on": true
-                            }, {
-                                "attribute": "eduPersonAffiliation",
-                                "on": false
-                            }];*/
+                            data.identityProviders = idpData;
+                            data.attributeList = attributeList;
+
                             $("#entityViewModal").html($("#entityViewServiceProviderModalTemplate").render({
                                 set: set,
                                 id: id,
@@ -90,7 +88,7 @@ $(document).ready(function () {
                         dataType: 'json',
                         success: function (spData) {
                             data.jsonData = JSON.stringify(data);
-                            data.ServiceProviders = spData;
+                            data.serviceProviders = spData;
                             $("#entityViewModal").html($("#entityViewIdentityProviderModalTemplate").render({
                                 set: set,
                                 id: id,

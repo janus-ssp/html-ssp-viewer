@@ -121,7 +121,7 @@
             <form id="aclForm" class="hide">
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
-                    {{for entry.ServiceProviders}}
+                    {{for entry.serviceProviders}}
                         <label class="checkbox">
                         <input type="checkbox" name="enableSP[]" value="{{>entityid}}">
                         <span title="{{>entityid}}">{{>name}}</span>
@@ -192,7 +192,7 @@
             <form id="aclForm" class="hide">
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
-                    {{for entry.IdentityProviders}}
+                    {{for entry.identityProviders}}
                         <label class="checkbox">
                         <input type="checkbox" name="enableIdP[]" value="{{>entityid}}">
                         <span title="{{>entityid}}">{{>name}}</span>
@@ -204,10 +204,21 @@
             <form id="arpForm" class="hide">
                 <fieldset>
                 <!-- <legend>ARP</legend> -->
-                    {{for entry.arp}}
+                    {{for entry.attributeList}}
                         <label class="checkbox">
-                        <input type="checkbox" name="enableAttribute[]" checked="checked" value="{{>attribute}}">
-                        <span title="{{>attribute}}">{{>attribute}}</span>
+                        {{if enabled}}
+                            <input type="checkbox" name="enableAttribute[]" checked="checked" value="{{>attribute}}">
+                        {{else}}
+                            <input type="checkbox" name="enableAttribute[]" value="{{>attribute}}">
+                        {{/if}}
+
+                        {{if enabled && custom}}
+                            <span class="text-error" title="{{>attribute}}">{{>attribute}}</span>
+                        {{else enabled}}
+                            <span class="text-info" title="{{>attribute}}">{{>attribute}}</span>
+                        {{else}}
+                            <span title="{{>attribute}}">{{>attribute}}</span>
+                        {{/if}}
                         </label>
                     {{/for}}
                 </fieldset>
@@ -231,6 +242,7 @@
     <script src="ext/js/jsrender.js"></script>
     <script src="ext/js/jso.js"></script>
     <script src="ext/bootstrap/js/bootstrap.min.js"></script>
+    <script src="config/attributes.js"></script>
     <script src="config/config.js"></script>
     <script src="js/ssp.js"></script>
 
