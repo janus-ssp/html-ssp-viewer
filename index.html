@@ -124,7 +124,11 @@
                     {{for entry.serviceProviders}}
                         <label class="checkbox">
                         <input type="checkbox" name="enableSP[]" value="{{>entityid}}">
-                        <span title="{{>entityid}}">{{>name}}</span>
+                        {{if name}}
+                            <span title="{{>entityid}}">{{>name}}</span>
+                        {{else}}
+                            <span title="{{>entityid}}">{{>entityid}}</span>
+                        {{/if}}
                         </label>
                     {{/for}}
                 </fieldset>
@@ -195,7 +199,11 @@
                     {{for entry.identityProviders}}
                         <label class="checkbox">
                         <input type="checkbox" name="enableIdP[]" value="{{>entityid}}">
-                        <span title="{{>entityid}}">{{>name}}</span>
+                        {{if name}}
+                            <span title="{{>entityid}}">{{>name}}</span>
+                        {{else}}
+                            <span title="{{>entityid}}">{{>entityid}}</span>
+                        {{/if}}
                         </label>
                     {{/for}}
                 </fieldset>

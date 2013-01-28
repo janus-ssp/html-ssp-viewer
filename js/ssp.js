@@ -65,6 +65,8 @@ $(document).ready(function () {
                                 });
                             }
 
+                            // FIXME: sort attributes by "enabled" state, attribute name
+
                             data.jsonData = JSON.stringify(data);
                             data.identityProviders = idpData;
                             data.attributeList = attributeList;
@@ -106,48 +108,55 @@ $(document).ready(function () {
     // IDP ACL
     // 'IDPList' => array('https://idp1.wayf.dk', 'https://idp2.wayf.dk'),
 
-    $(document).on('click', '#metadataListTable a', function () {
+    $(document).on('click', '#metadataListTable a', function (event) {
         renderEntity($(this).data('set'), $(this).data('id'));
+        event.preventDefault();
     });
 
-    $(document).on('click', '#listIdPs', function () {
+    $(document).on('click', '#listIdPs', function (event) {
         renderMetadataList('saml20-idp-remote');
         $("ul.nav").children().removeClass("active");
         $(this).parent().addClass("active");
+        event.preventDefault();
     });
 
-    $(document).on('click', '#listSPs', function () {
+    $(document).on('click', '#listSPs', function (event) {
         renderMetadataList('saml20-sp-remote');
         $("ul.nav").children().removeClass("active");
         $(this).parent().addClass("active");
+        event.preventDefault();
     });
 
-    $(document).on('click', '#basicButton', function () {
+    $(document).on('click', '#basicButton', function (event) {
         $("form").hide();
         $("form#basicForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
+        event.preventDefault();
     });
 
-    $(document).on('click', '#aclButton', function () {
+    $(document).on('click', '#aclButton', function (event) {
         $("form").hide();
         $("form#aclForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
+        event.preventDefault();
     });
 
-    $(document).on('click', '#arpButton', function () {
+    $(document).on('click', '#arpButton', function (event) {
         $("form").hide();
         $("form#arpForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
+        event.preventDefault();
     });
 
-    $(document).on('click', '#advancedButton', function () {
+    $(document).on('click', '#advancedButton', function (event) {
         $("form").hide();
         $("form#advancedForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
+        event.preventDefault();
     });
 
     function initPage() {
