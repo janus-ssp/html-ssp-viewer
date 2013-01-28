@@ -45,9 +45,14 @@ $(document).ready(function () {
                         jso_allowia: true,
                         dataType: 'json',
                         success: function (idpData) {
+                            data.arp = [];
+                            data.attributes.forEach(function(v, k) {
+                                data.arp.push({attribute: v});
+                            });
                             data.jsonData = JSON.stringify(data);
                             data.IdentityProviders = idpData;
-                            data.arp = [{
+                            
+                            /*data.arp = [{
                                 "attribute": "uid",
                                 "on": false
                             }, {
@@ -65,7 +70,7 @@ $(document).ready(function () {
                             }, {
                                 "attribute": "eduPersonAffiliation",
                                 "on": false
-                            }];
+                            }];*/
                             $("#entityViewModal").html($("#entityViewServiceProviderModalTemplate").render({
                                 set: set,
                                 id: id,
