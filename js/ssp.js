@@ -20,6 +20,21 @@ $(document).ready(function () {
             jso_allowia: true,
             dataType: 'json',
             success: function (data) {
+
+                // sort the entries by name
+                data.sort(function(a, b) {
+                    if(a.name && b.name) {
+                        return (a.name === b.name) ? 0 : (a.name < b.name) ? -1 : 1;
+                    }
+                    if(a.name && !b.name) {
+                        return (a.name === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+                    }
+                    if(!a.name && b.name) {
+                        return (a.entityid === b.name) ? 0 : (a.entityid < b.name) ? -1 : 1;
+                    }
+                    return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+                });
+
                 $("#metadataListTable").html($("#metadataListTemplate").render({
                     set: set,
                     entry: data
@@ -45,8 +60,22 @@ $(document).ready(function () {
                         jso_allowia: true,
                         dataType: 'json',
                         success: function (idpData) {
-                            attributeList = [];
 
+                            // sort the IdPs by name
+                            idpData.sort(function(a, b) {
+                                if(a.name && b.name) {
+                                    return (a.name === b.name) ? 0 : (a.name < b.name) ? -1 : 1;
+                                }
+                                if(a.name && !b.name) {
+                                    return (a.name === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+                                }
+                                if(!a.name && b.name) {
+                                    return (a.entityid === b.name) ? 0 : (a.entityid < b.name) ? -1 : 1;
+                                }
+                                return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+                            });
+
+                            attributeList = [];
                             // add the "default" attributes to the list
                             allAttributes.forEach(function(v) {
                                 attributeList.push({attribute: v, enabled: false, custom: false});
@@ -65,7 +94,16 @@ $(document).ready(function () {
                                 });
                             }
 
-                            // FIXME: sort attributes by "enabled" state, attribute name
+                            // sort by enabledness and then alphabetically
+                            attributeList.sort(function(a, b) {
+                                if(a.enabled && !b.enabled) {
+                                    return -1;
+                                }
+                                if(!a.enabled && b.enabled) {
+                                    return 1;
+                                }
+                                return (a.attribute === b.attribute) ? 0 : (a.attribute < b.attribute) ? -1 : 1;
+                            });
 
                             data.jsonData = JSON.stringify(data);
                             data.identityProviders = idpData;
@@ -89,6 +127,20 @@ $(document).ready(function () {
                         jso_allowia: true,
                         dataType: 'json',
                         success: function (spData) {
+                            // sort the SPs by name
+                            spData.sort(function(a, b) {
+                                if(a.name && b.name) {
+                                    return (a.name === b.name) ? 0 : (a.name < b.name) ? -1 : 1;
+                                }
+                                if(a.name && !b.name) {
+                                    return (a.name === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+                                }
+                                if(!a.name && b.name) {
+                                    return (a.entityid === b.name) ? 0 : (a.entityid < b.name) ? -1 : 1;
+                                }
+                                return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+                            });
+
                             data.jsonData = JSON.stringify(data);
                             data.serviceProviders = spData;
                             $("#entityViewModal").html($("#entityViewIdentityProviderModalTemplate").render({
