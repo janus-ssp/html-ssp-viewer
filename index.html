@@ -24,6 +24,13 @@
         </ul>
 
         <div id="metadataList">
+            <!--<form class="form-search">
+                <div class="input-append">
+                    <input id="searchTerm" type="text" class="span2 search-query">
+                    <button id="searchIdPs" type="submit" class="btn">Search</button>
+                </div>
+            </form>-->
+
             <div id="metadataListTable">
             </div>
         </div>
@@ -36,21 +43,25 @@
     </div> <!-- /container -->
 
     <script id="metadataListTemplate" type="text/x-jsrender">
+        <form class="form-search">
+            <div class="input-append">
+                <input id="searchTerm" type="text" class="span2 search-query">
+                <button id="searchButton" data-set="{{>set}}" type="submit" class="btn">Search</button>
+            </div>
+        </form>
+
         <table class="table table-striped table-bordered">
-            <thead>
-                <tr><th>Name</th></tr>
-            </thead>
-            	<tbody>
+        	<tbody>
             {{for entry ~set=set}}
                 <tr>
-                    <td>
+                    <td colspan="2">
                         {{if name}}
                             <a href="#" data-set="{{>~set}}" data-id="{{>entityid}}" title="{{>entityid}}">{{>name}}</a>
                         {{else}}
                             <a href="#" data-set="{{>~set}}" data-id="{{>entityid}}" title="{{>entityid}}">{{>entityid}}</a>
                         {{/if}}
-                        {{if description}}
-                            <small class="muted">{{>description}}</small>
+                        {{if entityid}}
+                            <small class="muted">{{>entityid}}</small>
                         {{/if}}
                     </td>
                 </tr>

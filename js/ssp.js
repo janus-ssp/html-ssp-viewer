@@ -12,9 +12,14 @@ $(document).ready(function () {
         "html-manage-ssp": apiScope
     });
 
-    function renderMetadataList(set) {
+    function renderMetadataList(set, searchQuery) {
+        if (searchQuery) {
+            var requestUri = apiEndpoint + "/" + set + "/?searchQuery=" + searchQuery;
+        } else {
+            var requestUri = apiEndpoint + "/" + set + "/";
+        }
         $.oajax({
-            url: apiEndpoint + "/" + set + "/",
+            url: requestUri,
             jso_provider: "html-manage-ssp",
             jso_scopes: apiScope,
             jso_allowia: true,
@@ -176,6 +181,11 @@ $(document).ready(function () {
         renderMetadataList('saml20-sp-remote');
         $("ul.nav").children().removeClass("active");
         $(this).parent().addClass("active");
+        event.preventDefault();
+    });
+
+    $(document).on('click', '#searchButton', function (event) {
+        renderMetadataList($(this).data('set'), $('#searchTerm').val());
         event.preventDefault();
     });
 
