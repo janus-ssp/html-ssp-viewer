@@ -66,8 +66,29 @@ $(document).ready(function () {
                         dataType: 'json',
                         success: function (idpData) {
 
+                            idpList = [];
+                            // add all IdPs to the list
+                            idpData.forEach(function(v) {
+                                idpList.push({entityid: v.entityid, name: v.name, enabled: false});
+                            });
+
+                            if(data.IDPList) {
+                                idpList.forEach(function(v, k) {
+                                    if(-1 !== data.IDPList.indexOf(v.entityid)) {
+                                        idpList[k].enabled = true;
+                                    }
+                                });
+                            }
+
                             // sort the IdPs by name
-                            idpData.sort(function(a, b) {
+                            idpList.sort(function(a, b) {
+                                if(a.enabled && !b.enabled) {
+                                    return -1;
+                                }
+                                if(!a.enabled && b.enabled) {
+                                    return 1;
+                                }
+
                                 if(a.name && b.name) {
                                     return (a.name === b.name) ? 0 : (a.name < b.name) ? -1 : 1;
                                 }
@@ -110,8 +131,9 @@ $(document).ready(function () {
                                 return (a.attribute === b.attribute) ? 0 : (a.attribute < b.attribute) ? -1 : 1;
                             });
 
+                           // alert(JSON.stringify(idpList));
                             data.jsonData = JSON.stringify(data);
-                            data.identityProviders = idpData;
+                            data.identityProviders = idpList;
                             data.attributeList = attributeList;
 
                             $("#entityViewModal").html($("#entityViewServiceProviderModalTemplate").render({
