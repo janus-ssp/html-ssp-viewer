@@ -66,6 +66,15 @@ $(document).ready(function () {
                         dataType: 'json',
                         success: function (idpData) {
 
+                            nameIDs = [];
+                            supportedNameIDFormats.forEach(function(v) {
+                                if (data.NameIDFormat === v) {
+                                    nameIDs.push({nameid: v, enabled: true});
+                                } else {
+                                    nameIDs.push({nameid: v, enabled: false});
+                                }
+                            });
+
                             idpList = [];
                             // add all IdPs to the list
                             idpData.forEach(function(v) {
@@ -131,10 +140,11 @@ $(document).ready(function () {
                                 return (a.attribute === b.attribute) ? 0 : (a.attribute < b.attribute) ? -1 : 1;
                             });
 
-                           // alert(JSON.stringify(idpList));
+                            // alert(JSON.stringify(idpList));
                             data.jsonData = JSON.stringify(data);
                             data.identityProviders = idpList;
                             data.attributeList = attributeList;
+                            data.nameIDs = nameIDs;
 
                             $("#entityViewModal").html($("#entityViewServiceProviderModalTemplate").render({
                                 set: set,

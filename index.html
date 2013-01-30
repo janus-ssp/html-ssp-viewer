@@ -165,7 +165,7 @@
                 </li>
 
                 <li>
-                    <a href="#" id="arpButton" data-id="{{>id}}" data-set="{{>set}}" title="Attribute Release Policy">ARP</a>
+                    <a href="#" id="arpButton" data-id="{{>id}}" data-set="{{>set}}" title="Attribute Release Policy">Attributes</a>
                 </li>
 
                 <li>
@@ -192,9 +192,25 @@
                 <div class="control-group">
                     <label class="control-label" for="form_AssertionConsumerService"><strong>AssertionConsumerService</strong></label>
                     <div class="controls">
-                        <input type="text" id="form_AssertionConsumerService" class="input-block-level" name="AssertionConsumerService" value="{{>entry.AssertionConsumerService}}" placeholder="AssertionConsumerService...">
+                        <input type="text" id="form_AssertionConsumerService" class="input-block-level" name="AssertionConsumerService" value="{{>entry.AssertionConsumerService.Location}}" placeholder="AssertionConsumerService...">
                     </div>
                 </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="form_NameIDFormat"><strong>NameIDFormat</strong></label>
+                    <div class="controls">
+                        <select id="form_NameIDFormat" class="input-block-level" name="NameIDFormat">
+                        {{for entry.nameIDs}}
+                            {{if enabled}}
+                                <option value="{{>nameid}}" selected="selected">{{>nameid}}</option>
+                            {{else}}
+                                <option value="{{>nameid}}">{{>nameid}}</option>
+                            {{/if}}
+                        {{/for}}
+                        </select>
+                    </div>
+                </div>
+
             </form>
 
             <form id="aclForm" class="hide">
@@ -258,7 +274,6 @@
     <script src="ext/js/jsrender.js"></script>
     <script src="ext/js/jso.js"></script>
     <script src="ext/bootstrap/js/bootstrap.min.js"></script>
-    <script src="config/attributes.js"></script>
     <script src="config/config.js"></script>
     <script src="js/ssp.js"></script>
 

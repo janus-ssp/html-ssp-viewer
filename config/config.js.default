@@ -1,6 +1,25 @@
 // specify the maximum number of items per page
 var maxPageLength     = 5;
 
-var apiClientId       = 'html-manage-ssp';
-var authorizeEndpoint = 'http://localhost/php-oauth/authorize.php';
-var apiEndpoint       = 'http://localhost/php-ssp-api/api.php';
+var apiClientId       = "html-manage-ssp";
+var authorizeEndpoint = "http://localhost/php-oauth/authorize.php";
+var apiEndpoint       = "http://localhost/php-ssp-api/api.php";
+
+var allAttributes = [
+    "uid", 
+    "eduPersonEntitlement", 
+    "eduPersonPrincipalName", 
+    "eduPersonAffiliation", 
+    "cn", 
+    "givenName", 
+    "sn", 
+    "mail", 
+    "schacHomeOrganization"
+];
+
+var supportedNameIDFormats = [
+    "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+    "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+    "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
+    "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
+];
