@@ -42,7 +42,8 @@ $(document).ready(function () {
 
                 $("#metadataListTable").html($("#metadataListTemplate").render({
                     set: set,
-                    entry: data
+                    entry: data,
+                    searchQuery: searchQuery
                 }));
             }
         });
