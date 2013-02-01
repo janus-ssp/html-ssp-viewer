@@ -125,9 +125,14 @@
             <form id="aclForm" class="entryForm hide">
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
+
                     {{for entry.serviceProviders}}
                         <label class="checkbox">
-                        <input type="checkbox" name="enableSP[]" value="{{>entityid}}">
+                        {{if enabled}}
+                            <input type="checkbox" name="enableSP[]" checked="checked" value="{{>entityid}}">
+                        {{else}}
+                            <input type="checkbox" name="enableSP[]" value="{{>entityid}}">
+                        {{/if}}
                         {{if name}}
                             <span title="{{>entityid}}">{{>name}}</span>
                         {{else}}

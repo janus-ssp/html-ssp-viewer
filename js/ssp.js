@@ -165,8 +165,26 @@ $(document).ready(function () {
                         jso_allowia: true,
                         dataType: 'json',
                         success: function (spData) {
+
+                            spList = [];
+                            // add all SPs to the list
+                            spData.forEach(function(v) {
+                                if(-1 === v.IDPList.indexOf(id)) {
+                                    spList.push({entityid: v.entityid, name: v.name, enabled: false});
+                                } else {
+                                    spList.push({entityid: v.entityid, name: v.name, enabled: true});
+                                }
+                            });
+
                             // sort the SPs by name
-                            spData.sort(function(a, b) {
+                            spList.sort(function(a, b) {
+                                if(a.enabled && !b.enabled) {
+                                    return -1;
+                                }
+                                if(!a.enabled && b.enabled) {
+                                    return 1;
+                                }
+
                                 if(a.name && b.name) {
                                     return (a.name === b.name) ? 0 : (a.name < b.name) ? -1 : 1;
                                 }
@@ -180,7 +198,7 @@ $(document).ready(function () {
                             });
 
                             data.jsonData = JSON.stringify(data);
-                            data.serviceProviders = spData;
+                            data.serviceProviders = spList;
                             $("#entityViewModal").html($("#entityViewIdentityProviderModalTemplate").render({
                                 set: set,
                                 id: id,
