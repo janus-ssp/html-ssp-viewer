@@ -222,7 +222,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#basicButton', function (event) {
-        $("form").hide();
+        $("form.entryForm").hide();
         $("form#basicForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
@@ -230,7 +230,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#aclButton', function (event) {
-        $("form").hide();
+        $("form.entryForm").hide();
         $("form#aclForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
@@ -238,7 +238,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#arpButton', function (event) {
-        $("form").hide();
+        $("form.entryForm").hide();
         $("form#arpForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
@@ -246,7 +246,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#advancedButton', function (event) {
-        $("form").hide();
+        $("form.entryForm").hide();
         $("form#advancedForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
