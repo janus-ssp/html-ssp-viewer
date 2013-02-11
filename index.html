@@ -216,6 +216,18 @@
                     </div>
                 </div>
 
+<!--                <div class="control-group">
+                    <label class="control-label" for="form_NameIDFormat"><strong>NameIDFormat</strong></label>
+                    <div class="controls">
+                    {{for entry.nameIDs}}
+                        <label class="checkbox">
+                        <input type="checkbox" name="NameIDFormat[]" checked="checked" value="{{>nameid}}">
+                        {{>nameid}}
+                        </label>
+                    {{/for}}
+                    </div>
+                </div> -->
+
             </form>
 
             <form id="aclForm" class="entryForm hide">
@@ -224,9 +236,9 @@
                     {{for entry.identityProviders}}
                         <label class="checkbox">
                         {{if enabled}}
-                            <input type="checkbox" name="enableIdP[]" checked="checked" value="{{>entityid}}">
+                            <input type="checkbox" name="IDPList[]" checked="checked" value="{{>entityid}}">
                         {{else}}
-                            <input type="checkbox" name="enableIdP[]" value="{{>entityid}}">
+                            <input type="checkbox" name="IDPList[]" value="{{>entityid}}">
                         {{/if}}
                         {{if name}}
                             <span title="{{>entityid}}">{{>name}}</span>
@@ -244,9 +256,9 @@
                     {{for entry.attributeList}}
                         <label class="checkbox">
                         {{if enabled}}
-                            <input type="checkbox" name="enableAttribute[]" checked="checked" value="{{>attribute}}">
+                            <input type="checkbox" name="attributes[]" checked="checked" value="{{>attribute}}">
                         {{else}}
-                            <input type="checkbox" name="enableAttribute[]" value="{{>attribute}}">
+                            <input type="checkbox" name="attributes[]" value="{{>attribute}}">
                         {{/if}}
 
                         {{if enabled && custom}}
