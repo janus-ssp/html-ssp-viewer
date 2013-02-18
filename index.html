@@ -72,7 +72,7 @@
                 </li>
 
                 <li>
-                    <a href="#" id="aclButton" data-id="{{>id}}" data-set="{{>set}}" title="Access Control List">ACL</a>
+                    <a href="#" id="aclButton" data-id="{{>id}}" data-set="{{>set}}" title="Allowed Service Providers">Allowed SPs</a>
                 </li>
 
                 <li>
@@ -123,6 +123,7 @@
             </form>
 
             <form id="aclForm" class="entryForm hide">
+            <p class="text-success">Select the available services for this identity provider.</p>
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
 
@@ -166,11 +167,11 @@
                 </li>
 
                 <li>
-                    <a href="#" id="aclButton" data-id="{{>id}}" data-set="{{>set}}" title="Access Control List">ACL</a>
+                    <a href="#" id="aclButton" data-id="{{>id}}" data-set="{{>set}}" title="Allowed Identity Providers">Allowed IdPs</a>
                 </li>
 
                 <li>
-                    <a href="#" id="arpButton" data-id="{{>id}}" data-set="{{>set}}" title="Attribute Release Policy">Attributes</a>
+                    <a href="#" id="arpButton" data-id="{{>id}}" data-set="{{>set}}" title="Attributes">Attributes</a>
                 </li>
 
                 <li>
@@ -231,6 +232,7 @@
             </form>
 
             <form id="aclForm" class="entryForm hide">
+            <p class="text-success">Select the identity providers that are allowed to access this service.</p>
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
                     {{for entry.identityProviders}}
@@ -251,8 +253,8 @@
             </form>
 
             <form id="arpForm" class="entryForm hide">
+            <p class="text-success">Select the attributes the service is allowed to receive.</p>
                 <fieldset>
-                <!-- <legend>ARP</legend> -->
                     {{for entry.attributeList}}
                         <label class="checkbox">
                         {{if enabled}}
