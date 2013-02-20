@@ -49,7 +49,7 @@
                 <tr>
                     <td colspan="2">
                         {{if name}}
-                            <a href="#" data-set="{{>~set}}" data-id="{{>entityid}}" title="{{>entityid}}">{{>name}}</a>
+                            <a href="#" data-set="{{>~set}}" data-id="{{>entityid}}" title="{{>entityid}}">{{>name.en}}</a>
                         {{else}}
                             <a href="#" data-set="{{>~set}}" data-id="{{>entityid}}" title="{{>entityid}}">{{>entityid}}</a>
                         {{/if}}
@@ -87,7 +87,7 @@
                     <div class="control-group">
                         <label class="control-label" for="form_name"><strong>Name</strong></label>
                         <div class="controls">
-                            <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name}}" placeholder="Name...">
+                            <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name.en}}" placeholder="Name...">
                         </div>
                     </div>
 
@@ -135,7 +135,7 @@
                             <input type="checkbox" name="enableSP[]" value="{{>entityid}}">
                         {{/if}}
                         {{if name}}
-                            <span title="{{>entityid}}">{{>name}}</span>
+                            <span title="{{>entityid}}">{{>name.en}}</span>
                         {{else}}
                             <span title="{{>entityid}}">{{>entityid}}</span>
                         {{/if}}
@@ -184,7 +184,7 @@
                  <div class="control-group">
                     <label class="control-label" for="form_name"><strong>Name</strong></label>
                     <div class="controls">
-                        <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name}}" placeholder="Name...">
+                        <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name.en}}" placeholder="Name...">
                     </div>
                 </div>
 
@@ -243,7 +243,7 @@
                             <input type="checkbox" name="IDPList[]" value="{{>entityid}}">
                         {{/if}}
                         {{if name}}
-                            <span title="{{>entityid}}">{{>name}}</span>
+                            <span title="{{>entityid}}">{{>name.en}}</span>
                         {{else}}
                             <span title="{{>entityid}}">{{>entityid}}</span>
                         {{/if}}
