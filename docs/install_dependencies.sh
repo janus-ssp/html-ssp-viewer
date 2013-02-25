@@ -1,5 +1,7 @@
 #!/bin/sh
 
+CODEMIRROR_VERSION=3.1
+
 rm -rf ext
 mkdir -p ext/js
 mkdir -p ext/bootstrap
@@ -15,6 +17,8 @@ curl -o ext/js/jso.js https://raw.github.com/andreassolberg/jso/master/jso.js
 
 # Bootstrap
 curl -o ext/bootstrap.zip http://twitter.github.com/bootstrap/assets/bootstrap.zip
-(cd ext/ && unzip bootstrap.zip && rm bootstrap.zip)
+(cd ext/ && unzip -q bootstrap.zip && rm bootstrap.zip)
 
-
+# CodeMirror
+curl -o ext/codemirror-${CODEMIRROR_VERSION}.zip http://codemirror.net/codemirror-${CODEMIRROR_VERSION}.zip
+(cd ext/ && unzip -q codemirror-${CODEMIRROR_VERSION}.zip && mv codemirror-${CODEMIRROR_VERSION} codemirror && rm codemirror-${CODEMIRROR_VERSION}.zip)

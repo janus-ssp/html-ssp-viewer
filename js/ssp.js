@@ -272,7 +272,6 @@ $(document).ready(function () {
             lineNumbers: true,
             mode: "application/json",
         });
-
         CodeMirror.commands["selectAll"](cm);
         cm.autoFormatRange(cm.getCursor(true), cm.getCursor(false));
 
