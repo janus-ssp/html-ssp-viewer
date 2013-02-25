@@ -147,7 +147,7 @@
             <form id="advancedForm" class="entryForm hide">
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
-                    <textarea class="input-block-level" rows="10" name="jsonData">{{>entry.jsonData}}</textarea>
+                    <textarea id="advancedBox" class="input-block-level" rows="10" name="jsonData">{{>entry.jsonData}}</textarea>
                 </fieldset>
             </form>
 
@@ -278,7 +278,7 @@
             <form id="advancedForm" class="entryForm hide">
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
-                    <textarea class="input-block-level" rows="10" name="jsonData">{{>entry.jsonData}}</textarea>
+                    <textarea id="advancedBox" class="input-block-level" rows="10" name="jsonData">{{>entry.jsonData}}</textarea>
                 </fieldset>
             </form>
 
@@ -296,5 +296,9 @@
     <script src="config/config.js"></script>
     <script src="js/ssp.js"></script>
 
+    <script src="ext/codemirror-3.1/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="ext/codemirror-3.1/lib/codemirror.css">
+    <script src="ext/codemirror-3.1/mode/javascript/javascript.js"></script>
+    <script src="ext/codemirror-3.1/addon/format/formatting.js"></script>
   </body>
 </html>

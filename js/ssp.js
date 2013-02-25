@@ -268,6 +268,14 @@ $(document).ready(function () {
         $("form.entryForm").hide();
         $("form#advancedForm").show();
         $("ul.entitynav").children().removeClass("active");
+        var cm = CodeMirror.fromTextArea(document.getElementById("advancedBox"), {
+            lineNumbers: true,
+            mode: "application/json",
+        });
+
+        CodeMirror.commands["selectAll"](cm);
+        cm.autoFormatRange(cm.getCursor(true), cm.getCursor(false));
+
         $(this).parent().addClass("active");
         event.preventDefault();
     });
