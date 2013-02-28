@@ -142,7 +142,7 @@ $(document).ready(function () {
                             });
 
                             // alert(JSON.stringify(idpList));
-                            data.jsonData = JSON.stringify(data);
+                            data.jsonData = JSON.stringify(data, null, 4);
                             data.identityProviders = idpList;
                             data.attributeList = attributeList;
                             data.nameIDs = nameIDs;
@@ -197,7 +197,7 @@ $(document).ready(function () {
                                 return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
                             });
 
-                            data.jsonData = JSON.stringify(data);
+                            data.jsonData = JSON.stringify(data, null, 4);
                             data.serviceProviders = spList;
                             $("#entityViewModal").html($("#entityViewIdentityProviderModalTemplate").render({
                                 set: set,
@@ -268,13 +268,6 @@ $(document).ready(function () {
         $("form.entryForm").hide();
         $("form#advancedForm").show();
         $("ul.entitynav").children().removeClass("active");
-        var cm = CodeMirror.fromTextArea(document.getElementById("advancedBox"), {
-            lineNumbers: true,
-            mode: "application/json",
-        });
-        CodeMirror.commands["selectAll"](cm);
-        cm.autoFormatRange(cm.getCursor(true), cm.getCursor(false));
-
         $(this).parent().addClass("active");
         event.preventDefault();
     });
