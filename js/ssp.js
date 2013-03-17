@@ -50,6 +50,7 @@ $(document).ready(function () {
     }
 
     function renderEntity(set, id) {
+        // FIXME: it seems jQuery AJAX calls trims a URL before making the call, this is not always a good idea...
         $.oajax({
             url: apiEndpoint + "/" + set + "/entity?id=" + id,
             jso_provider: "html-manage-ssp",
@@ -269,6 +270,26 @@ $(document).ready(function () {
         $("form#advancedForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
+        event.preventDefault();
+    });
+
+    $(document).on('click', '#storeJson', function (event) {
+        var entityId = $(this).data("id");
+        var samlSet = $(this).data("set");
+        var entityData = $("textarea#jsonData").val();
+
+        $.oajax({
+            url: apiEndpoint + "/" + samlSet + "/entity?id=" + entityId,
+            type: "PUT",
+            jso_provider: "html-manage-ssp",
+            jso_scopes: apiScope,
+            jso_allowia: true,
+            contentType: 'application/json',
+            data: entityData,
+            success: function (spData) {
+                alert(JSON.stringify(spData));
+            },
+        });
         event.preventDefault();
     });
 

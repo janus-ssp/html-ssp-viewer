@@ -52,13 +52,15 @@
                 <tr>
                     <td colspan="2">
                         {{if name}}
-                            <a href="#" data-set="{{>~set}}" data-id="{{>entityid}}" title="{{>entityid}}">{{>name.en}}</a>
+			                {{if state === "prodaccepted"}}
+	                                        <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}">{{>name.en}}</a>
+			                {{else}}
+                                                <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}" class="muted">{{>name.en}}</a>	
+			                {{/if}}
                         {{else}}
-                            <a href="#" data-set="{{>~set}}" data-id="{{>entityid}}" title="{{>entityid}}">{{>entityid}}</a>
+                            <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}">{{>entityid}}</a>
                         {{/if}}
-                        {{if entityid}}
-                            <small class="muted">{{>entityid}}</small>
-                        {{/if}}
+                        <small class="muted">{{>entityid}}</small>
                     </td>
                 </tr>
             {{/for}}
@@ -71,15 +73,15 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <ul class="entitynav nav nav-pills">
                 <li class="active">
-                    <a href="#" id="basicButton" data-id="{{>id}}" data-set="{{>set}}" title="Basic Configuration Options">Basic</a>
+                    <a href="#" id="basicButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Basic Configuration Options">Basic</a>
                 </li>
 
                 <li>
-                    <a href="#" id="aclButton" data-id="{{>id}}" data-set="{{>set}}" title="Allowed Service Providers">Allowed SPs</a>
+                    <a href="#" id="aclButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Allowed Service Providers">Allowed SPs</a>
                 </li>
 
                 <li>
-                    <a href="#" id="advancedButton" data-id="{{>id}}" data-set="{{>set}}" title="Advanced Configuration">Advanced</a>
+                    <a href="#" id="advancedButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Advanced Configuration">Advanced</a>
                 </li>
             </ul>
         </div>
@@ -150,7 +152,8 @@
             <form id="advancedForm" class="entryForm hide">
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
-                    <textarea class="input-block-level" rows="10" name="jsonData">{{>entry.jsonData}}</textarea>
+                    <textarea class="input-block-level" rows="10" id="jsonData" name="jsonData">{{>entry.jsonData}}</textarea>
+                <button id="storeJson" class="btn btn-primary" data-id="{{>entry.entityid}}" data-set="{{>set}}">Store</button>
                 </fieldset>
             </form>
 
@@ -166,19 +169,19 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <ul class="entitynav nav nav-pills">
                 <li class="active">
-                    <a href="#" id="basicButton" data-id="{{>id}}" data-set="{{>set}}" title="Basic Configuration Options">Basic</a>
+                    <a href="#" id="basicButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Basic Configuration Options">Basic</a>
                 </li>
 
                 <li>
-                    <a href="#" id="aclButton" data-id="{{>id}}" data-set="{{>set}}" title="Allowed Identity Providers">Allowed IdPs</a>
+                    <a href="#" id="aclButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Allowed Identity Providers">Allowed IdPs</a>
                 </li>
 
                 <li>
-                    <a href="#" id="arpButton" data-id="{{>id}}" data-set="{{>set}}" title="Attributes">Attributes</a>
+                    <a href="#" id="arpButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Attributes">Attributes</a>
                 </li>
 
                 <li>
-                    <a href="#" id="advancedButton" data-id="{{>id}}" data-set="{{>set}}" title="Advanced Configuration">Advanced</a>
+                    <a href="#" id="advancedButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Advanced Configuration">Advanced</a>
                 </li>
             </ul>
         </div>
@@ -281,8 +284,9 @@
             <form id="advancedForm" class="entryForm hide">
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
-                    <textarea class="input-block-level" rows="10" name="jsonData">{{>entry.jsonData}}</textarea>
+                    <textarea class="input-block-level" rows="10" id="jsonData" name="jsonData">{{>entry.jsonData}}</textarea>
                 </fieldset>
+                <button id="storeJson" class="btn btn-primary" data-id="{{>entry.entityid}}" data-set="{{>set}}">Store</button>
             </form>
 
         </div>
