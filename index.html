@@ -92,7 +92,11 @@
                     <div class="control-group">
                         <label class="control-label" for="form_name"><strong>Name</strong></label>
                         <div class="controls">
-                            <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name.en}}" placeholder="Name...">
+                            {{if entry.name && entry.name.en}}
+                                <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name.en}}" placeholder="Name...">
+                            {{else}}
+                                <input type="text" id="form_name" class="input-block-level" name="name" placeholder="Name...">
+                            {{/if}}
                         </div>
                     </div>
 
@@ -190,7 +194,11 @@
                  <div class="control-group">
                     <label class="control-label" for="form_name"><strong>Name</strong></label>
                     <div class="controls">
-                        <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name.en}}" placeholder="Name...">
+                        {{if entry.name && entry.name.en}}
+                            <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name.en}}" placeholder="Name...">
+                        {{else}}
+                            <input type="text" id="form_name" class="input-block-level" name="name" placeholder="Name...">
+                        {{/if}}
                     </div>
                 </div>
 
