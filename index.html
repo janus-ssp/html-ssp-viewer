@@ -144,9 +144,17 @@
                             <input type="checkbox" name="enableSP[]" value="{{>entityid}}">
                         {{/if}}
                         {{if name}}
-                            <span title="{{>entityid}}">{{>name.en}}</span>
+			                {{if state === "prodaccepted"}}
+                                <span title="{{>entityid}}">{{>name.en}}</span>
+                            {{else}}
+                                <span class="muted" title="{{>entityid}}">{{>name.en}}</span>
+                            {{/if}}
                         {{else}}
-                            <span title="{{>entityid}}">{{>entityid}}</span>
+			                {{if state === "prodaccepted"}}
+                                <span title="{{>entityid}}">{{>entityid}}</span>
+                            {{else}}
+                                <span class="muted" title="{{>entityid}}">{{>entityid}}</span>
+                            {{/if}}
                         {{/if}}
                         </label>
                     {{/for}}
@@ -257,9 +265,17 @@
                             <input type="checkbox" name="IDPList[]" value="{{>entityid}}">
                         {{/if}}
                         {{if name}}
-                            <span title="{{>entityid}}">{{>name.en}}</span>
+			                {{if state === "prodaccepted"}}
+                                <span title="{{>entityid}}">{{>name.en}}</span>
+                            {{else}}
+                                <span class="muted" title="{{>entityid}}">{{>name.en}}</span>
+                            {{/if}}
                         {{else}}
-                            <span title="{{>entityid}}">{{>entityid}}</span>
+			                {{if state === "prodaccepted"}}
+                                <span title="{{>entityid}}">{{>entityid}}</span>
+                            {{else}}
+                                <span class="muted" title="{{>entityid}}">{{>name.en}}</span>
+                            {{/if}}
                         {{/if}}
                         </label>
                     {{/for}}

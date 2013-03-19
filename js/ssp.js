@@ -28,16 +28,18 @@ $(document).ready(function () {
 
                 // sort the entries by name
                 data.sort(function(a, b) {
-                    if(a.name && b.name) {
-                        return (a.name === b.name) ? 0 : (a.name < b.name) ? -1 : 1;
+
+                    if(a.name && a.name.en && b.name && b.name.en) {
+                        return (a.name.en === b.name.en) ? 0 : (a.name.en < b.name.en) ? -1 : 1;
                     }
-                    if(a.name && !b.name) {
-                        return (a.name === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+                    if(a.name && a.name.en && (!b.name || !b.name.en)) {
+                        return (a.name.en === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
                     }
-                    if(!a.name && b.name) {
-                        return (a.entityid === b.name) ? 0 : (a.entityid < b.name) ? -1 : 1;
+                    if((!a.name || !a.name.en) && b.name && b.name.en) {
+                        return (a.entityid === b.name.en) ? 0 : (a.entityid < b.name.en) ? -1 : 1;
                     }
                     return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+
                 });
 
                 $("#metadataListTable").html($("#metadataListTemplate").render({
@@ -80,7 +82,7 @@ $(document).ready(function () {
                             idpList = [];
                             // add all IdPs to the list
                             idpData.forEach(function(v) {
-                                idpList.push({entityid: v.entityid, name: v.name, enabled: false});
+                                idpList.push({entityid: v.entityid, name: v.name, state: v.state, enabled: false});
                             });
 
                             if(data.IDPList) {
@@ -100,16 +102,18 @@ $(document).ready(function () {
                                     return 1;
                                 }
 
-                                if(a.name && b.name) {
-                                    return (a.name === b.name) ? 0 : (a.name < b.name) ? -1 : 1;
+                                if(a.name && a.name.en && b.name && b.name.en) {
+                                    return (a.name.en === b.name.en) ? 0 : (a.name.en < b.name.en) ? -1 : 1;
                                 }
-                                if(a.name && !b.name) {
-                                    return (a.name === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+                                if(a.name && a.name.en && (!b.name || !b.name.en)) {
+                                    return (a.name.en === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
                                 }
-                                if(!a.name && b.name) {
-                                    return (a.entityid === b.name) ? 0 : (a.entityid < b.name) ? -1 : 1;
+                                if((!a.name || !a.name.en) && b.name && b.name.en) {
+                                    return (a.entityid === b.name.en) ? 0 : (a.entityid < b.name.en) ? -1 : 1;
                                 }
                                 return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+
+                                
                             });
 
                             attributeList = [];
@@ -171,9 +175,9 @@ $(document).ready(function () {
                             // add all SPs to the list
                             spData.forEach(function(v) {
                                 if(-1 === v.IDPList.indexOf(id)) {
-                                    spList.push({entityid: v.entityid, name: v.name, enabled: false});
+                                    spList.push({entityid: v.entityid, name: v.name, state: v.state, enabled: false});
                                 } else {
-                                    spList.push({entityid: v.entityid, name: v.name, enabled: true});
+                                    spList.push({entityid: v.entityid, name: v.name, state: v.state, enabled: true});
                                 }
                             });
 
@@ -186,16 +190,17 @@ $(document).ready(function () {
                                     return 1;
                                 }
 
-                                if(a.name && b.name) {
-                                    return (a.name === b.name) ? 0 : (a.name < b.name) ? -1 : 1;
+                                if(a.name && a.name.en && b.name && b.name.en) {
+                                    return (a.name.en === b.name.en) ? 0 : (a.name.en < b.name.en) ? -1 : 1;
                                 }
-                                if(a.name && !b.name) {
-                                    return (a.name === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+                                if(a.name && a.name.en && (!b.name || !b.name.en)) {
+                                    return (a.name.en === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
                                 }
-                                if(!a.name && b.name) {
-                                    return (a.entityid === b.name) ? 0 : (a.entityid < b.name) ? -1 : 1;
+                                if((!a.name || !a.name.en) && b.name && b.name.en) {
+                                    return (a.entityid === b.name.en) ? 0 : (a.entityid < b.name.en) ? -1 : 1;
                                 }
                                 return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+
                             });
 
                             data.jsonData = JSON.stringify(data, null, 4);
