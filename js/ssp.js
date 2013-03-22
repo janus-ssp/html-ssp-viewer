@@ -12,6 +12,26 @@ $(document).ready(function () {
         "html-manage-ssp": apiScope
     });
 
+    function sortEntities(a, b) {
+        if(a.enabled && !b.enabled) {
+            return -1;
+        }
+        if(!a.enabled && b.enabled) {
+            return 1;
+        }
+
+        if(a.name && a.name.en && b.name && b.name.en) {
+            return (a.name.en === b.name.en) ? 0 : (a.name.en < b.name.en) ? -1 : 1;
+        }
+        if(a.name && a.name.en && (!b.name || !b.name.en)) {
+            return (a.name.en === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+        }
+        if((!a.name || !a.name.en) && b.name && b.name.en) {
+            return (a.entityid === b.name.en) ? 0 : (a.entityid < b.name.en) ? -1 : 1;
+        }
+        return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+    }
+
     function renderMetadataList(set, searchQuery) {
         if (searchQuery) {
             var requestUri = apiEndpoint + "/" + set + "/?searchQuery=" + searchQuery;
@@ -27,20 +47,7 @@ $(document).ready(function () {
             success: function (data) {
 
                 // sort the entries by name
-                data.sort(function(a, b) {
-
-                    if(a.name && a.name.en && b.name && b.name.en) {
-                        return (a.name.en === b.name.en) ? 0 : (a.name.en < b.name.en) ? -1 : 1;
-                    }
-                    if(a.name && a.name.en && (!b.name || !b.name.en)) {
-                        return (a.name.en === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
-                    }
-                    if((!a.name || !a.name.en) && b.name && b.name.en) {
-                        return (a.entityid === b.name.en) ? 0 : (a.entityid < b.name.en) ? -1 : 1;
-                    }
-                    return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
-
-                });
+                data.sort(sortEntities);
 
                 $("#metadataListTable").html($("#metadataListTemplate").render({
                     set: set,
@@ -94,27 +101,7 @@ $(document).ready(function () {
                             }
 
                             // sort the IdPs by name
-                            idpList.sort(function(a, b) {
-                                if(a.enabled && !b.enabled) {
-                                    return -1;
-                                }
-                                if(!a.enabled && b.enabled) {
-                                    return 1;
-                                }
-
-                                if(a.name && a.name.en && b.name && b.name.en) {
-                                    return (a.name.en === b.name.en) ? 0 : (a.name.en < b.name.en) ? -1 : 1;
-                                }
-                                if(a.name && a.name.en && (!b.name || !b.name.en)) {
-                                    return (a.name.en === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
-                                }
-                                if((!a.name || !a.name.en) && b.name && b.name.en) {
-                                    return (a.entityid === b.name.en) ? 0 : (a.entityid < b.name.en) ? -1 : 1;
-                                }
-                                return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
-
-                                
-                            });
+                            idpList.sort(sortEntities);
 
                             attributeList = [];
                             // add the "default" attributes to the list
@@ -182,26 +169,7 @@ $(document).ready(function () {
                             });
 
                             // sort the SPs by name
-                            spList.sort(function(a, b) {
-                                if(a.enabled && !b.enabled) {
-                                    return -1;
-                                }
-                                if(!a.enabled && b.enabled) {
-                                    return 1;
-                                }
-
-                                if(a.name && a.name.en && b.name && b.name.en) {
-                                    return (a.name.en === b.name.en) ? 0 : (a.name.en < b.name.en) ? -1 : 1;
-                                }
-                                if(a.name && a.name.en && (!b.name || !b.name.en)) {
-                                    return (a.name.en === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
-                                }
-                                if((!a.name || !a.name.en) && b.name && b.name.en) {
-                                    return (a.entityid === b.name.en) ? 0 : (a.entityid < b.name.en) ? -1 : 1;
-                                }
-                                return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
-
-                            });
+                            spList.sort(sortEntities);
 
                             data.jsonData = JSON.stringify(data, null, 4);
                             data.serviceProviders = spList;
