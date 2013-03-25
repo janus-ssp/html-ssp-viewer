@@ -15,7 +15,6 @@
     <div class="container">
 
         <h1>simpleSAMLphp Management</h1>
-        <p class="lead">This application makes it possible to manage simpleSAMLphp's metadata registrations.</p>
 
         <ul class="nav nav-pills">
             <li>
@@ -75,7 +74,9 @@
                 <li class="active">
                     <a href="#" id="basicButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Basic Configuration Options">Basic</a>
                 </li>
-
+                <li>
+                    <a href="#" id="samlButton" data-id="{{attr:id}}" data-set="{{>set}}" title="SAML Configuration Options">SAML</a>
+                </li>
                 <li>
                     <a href="#" id="aclButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Allowed Service Providers">Allowed SPs</a>
                 </li>
@@ -99,6 +100,12 @@
                             {{/if}}
                         </div>
                     </div>
+                </fieldset>
+            </form>
+
+            <form id="samlForm" class="entryForm hide">
+                <fieldset>
+                <!-- <legend>ACL</legend> -->
 
                     <div class="control-group">
                         <label class="control-label" for="form_entityId"><strong>Entity ID</strong></label>

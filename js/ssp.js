@@ -32,6 +32,16 @@ $(document).ready(function () {
         return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
     }
 
+    function sortAttributes(a, b) {
+        if(a.enabled && !b.enabled) {
+            return -1;
+        }
+        if(!a.enabled && b.enabled) {
+            return 1;
+        }
+        return (a.attribute === b.attribute) ? 0 : (a.attribute < b.attribute) ? -1 : 1;
+    }
+
     function renderMetadataList(set, searchQuery) {
         if (searchQuery) {
             var requestUri = apiEndpoint + "/" + set + "/?searchQuery=" + searchQuery;
@@ -123,15 +133,7 @@ $(document).ready(function () {
                             }
 
                             // sort by enabledness and then alphabetically
-                            attributeList.sort(function(a, b) {
-                                if(a.enabled && !b.enabled) {
-                                    return -1;
-                                }
-                                if(!a.enabled && b.enabled) {
-                                    return 1;
-                                }
-                                return (a.attribute === b.attribute) ? 0 : (a.attribute < b.attribute) ? -1 : 1;
-                            });
+                            attributeList.sort(sortAttributes);
 
                             // alert(JSON.stringify(idpList));
                             data.jsonData = JSON.stringify(data, null, 4);
@@ -222,6 +224,14 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
+    $(document).on('click', '#samlButton', function (event) {
+        $("form.entryForm").hide();
+        $("form#samlForm").show();
+        $("ul.entitynav").children().removeClass("active");
+        $(this).parent().addClass("active");
+        event.preventDefault();
+    });
+
     $(document).on('click', '#aclButton', function (event) {
         $("form.entryForm").hide();
         $("form#aclForm").show();
@@ -247,22 +257,25 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#storeJson', function (event) {
-        var entityId = $(this).data("id");
-        var samlSet = $(this).data("set");
-        var entityData = $("textarea#jsonData").val();
 
-        $.oajax({
-            url: apiEndpoint + "/" + samlSet + "/entity?id=" + entityId,
-            type: "PUT",
-            jso_provider: "html-manage-ssp",
-            jso_scopes: apiScope,
-            jso_allowia: true,
-            contentType: 'application/json',
-            data: entityData,
-            success: function (spData) {
-                alert(JSON.stringify(spData));
-            },
-        });
+        if(confirm("This will override all non-advanced configuration. Are you sure?")) {
+            var entityId = $(this).data("id");
+            var samlSet = $(this).data("set");
+            var entityData = $("textarea#jsonData").val();
+
+            $.oajax({
+                url: apiEndpoint + "/" + samlSet + "/entity?id=" + entityId,
+                type: "PUT",
+                jso_provider: "html-manage-ssp",
+                jso_scopes: apiScope,
+                jso_allowia: true,
+                contentType: 'application/json',
+                data: entityData,
+                success: function (spData) {
+                    alert(JSON.stringify(spData));
+                },
+            });
+        }
         event.preventDefault();
     });
 
