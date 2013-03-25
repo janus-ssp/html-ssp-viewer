@@ -105,7 +105,7 @@
 
             <form id="samlForm" class="entryForm hide">
                 <fieldset>
-                <!-- <legend>ACL</legend> -->
+                <!-- <legend>SAML</legend> -->
 
                     <div class="control-group">
                         <label class="control-label" for="form_entityId"><strong>Entity ID</strong></label>
@@ -192,6 +192,10 @@
                 </li>
 
                 <li>
+                    <a href="#" id="samlButton" data-id="{{attr:id}}" data-set="{{>set}}" title="SAML Configuration Options">SAML</a>
+                </li>
+
+                <li>
                     <a href="#" id="aclButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Allowed Identity Providers">Allowed IdPs</a>
                 </li>
 
@@ -216,6 +220,10 @@
                         {{/if}}
                     </div>
                 </div>
+            </form>
+
+            <form id="samlForm" class="entryForm hide">
+                <!-- <legend>SAML</legend> -->
 
                 <div class="control-group">
                     <label class="control-label" for="form_entityId"><strong>Entity ID</strong></label>
