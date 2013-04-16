@@ -57,7 +57,11 @@
                                                 <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}" class="muted">{{>name.en}}</a>	
 			                {{/if}}
                         {{else}}
-                            <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}">{{>entityid}}</a>
+                            {{if state === "prodaccepted"}}
+	                            <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}">{{>entityid}}</a>
+			    {{else}}
+                                    <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}" class="muted">{{>entityid}}</a>
+			    {{/if}}
                         {{/if}}
                         <small class="muted">{{>entityid}}</small>
                     </td>
