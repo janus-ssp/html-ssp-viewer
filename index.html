@@ -50,18 +50,18 @@
             {{for entry ~set=set}}
                 <tr>
                     <td colspan="2">
-                        {{if name}}
+                        {{if name && name.en}}
 			                {{if state === "prodaccepted"}}
-	                                        <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}">{{>name.en}}</a>
+	                            <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}">{{>name.en}}</a>
 			                {{else}}
-                                                <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}" class="muted">{{>name.en}}</a>	
+                                <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}" class="muted">{{>name.en}}</a>	
 			                {{/if}}
                         {{else}}
                             {{if state === "prodaccepted"}}
 	                            <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}">{{>entityid}}</a>
-			    {{else}}
-                                    <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}" class="muted">{{>entityid}}</a>
-			    {{/if}}
+            			    {{else}}
+                                <a href="#" data-set="{{>~set}}" data-id="{{:entityid}}" title="{{>entityid}}" class="muted">{{>entityid}}</a>
+		            	    {{/if}}
                         {{/if}}
                         <small class="muted">{{>entityid}}</small>
                     </td>
@@ -154,7 +154,7 @@
                         {{else}}
                             <input type="checkbox" name="enableSP[]" value="{{>entityid}}">
                         {{/if}}
-                        {{if name}}
+                        {{if name && name.en}}
 			                {{if state === "prodaccepted"}}
                                 <span title="{{>entityid}}">{{>name.en}}</span>
                             {{else}}
@@ -283,7 +283,7 @@
                         {{else}}
                             <input type="checkbox" name="IDPList[]" value="{{>entityid}}">
                         {{/if}}
-                        {{if name}}
+                        {{if name && name.en}}
 			                {{if state === "prodaccepted"}}
                                 <span title="{{>entityid}}">{{>name.en}}</span>
                             {{else}}
@@ -293,7 +293,7 @@
 			                {{if state === "prodaccepted"}}
                                 <span title="{{>entityid}}">{{>entityid}}</span>
                             {{else}}
-                                <span class="muted" title="{{>entityid}}">{{>name.en}}</span>
+                                <span class="muted" title="{{>entityid}}">{{>entityid}}</span>
                             {{/if}}
                         {{/if}}
                         </label>
