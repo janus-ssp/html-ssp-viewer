@@ -1,17 +1,5 @@
 $(document).ready(function () {
 
-    var apiScope = ["ssp"];
-
-    jso_configure({
-        "html-manage-ssp": {
-            client_id: apiClientId,
-            authorization: authorizeEndpoint
-        }
-    });
-    jso_ensureTokens({
-        "html-manage-ssp": apiScope
-    });
-
     function sortEntities(a, b) {
         if(a.enabled && !b.enabled) {
             return -1;
@@ -48,11 +36,8 @@ $(document).ready(function () {
         } else {
             var requestUri = apiEndpoint + "/" + set + "/";
         }
-        $.oajax({
+        $.ajax({
             url: requestUri,
-            jso_provider: "html-manage-ssp",
-            jso_scopes: apiScope,
-            jso_allowia: true,
             dataType: 'json',
             success: function (data) {
 
@@ -70,20 +55,14 @@ $(document).ready(function () {
 
     function renderEntity(set, id) {
         // FIXME: it seems jQuery AJAX calls trims a URL before making the call, this is not always a good idea...
-        $.oajax({
+        $.ajax({
             url: apiEndpoint + "/" + set + "/entity?id=" + id,
-            jso_provider: "html-manage-ssp",
-            jso_scopes: apiScope,
-            jso_allowia: true,
             dataType: 'json',
             success: function (data) {
                 if ("saml20-sp-remote" === set) {
                     // fetching a list of all IdPs
-                    $.oajax({
+                    $.ajax({
                         url: apiEndpoint + "/saml20-idp-remote/",
-                        jso_provider: "html-manage-ssp",
-                        jso_scopes: apiScope,
-                        jso_allowia: true,
                         dataType: 'json',
                         success: function (idpData) {
 
@@ -152,11 +131,8 @@ $(document).ready(function () {
                 }
                 if ("saml20-idp-remote" === set) {
                     // fetching a list of all SPs
-                    $.oajax({
+                    $.ajax({
                         url: apiEndpoint + "/saml20-sp-remote/",
-                        jso_provider: "html-manage-ssp",
-                        jso_scopes: apiScope,
-                        jso_allowia: true,
                         dataType: 'json',
                         success: function (spData) {
 
@@ -253,29 +229,6 @@ $(document).ready(function () {
         $("form#advancedForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
-        event.preventDefault();
-    });
-
-    $(document).on('click', '#storeJson', function (event) {
-
-        if(confirm("This will override all non-advanced configuration. Are you sure?")) {
-            var entityId = $(this).data("id");
-            var samlSet = $(this).data("set");
-            var entityData = $("textarea#jsonData").val();
-
-            $.oajax({
-                url: apiEndpoint + "/" + samlSet + "/entity?id=" + entityId,
-                type: "PUT",
-                jso_provider: "html-manage-ssp",
-                jso_scopes: apiScope,
-                jso_allowia: true,
-                contentType: 'application/json',
-                data: entityData,
-                success: function (spData) {
-                    alert(JSON.stringify(spData));
-                },
-            });
-        }
         event.preventDefault();
     });
 
