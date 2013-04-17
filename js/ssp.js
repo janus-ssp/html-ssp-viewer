@@ -1,172 +1,198 @@
 $(document).ready(function () {
 
-    function sortEntities(a, b) {
-        if(a.enabled && !b.enabled) {
+    var idpData;
+    var spData;
+
+    function renderIdPList() {
+        idpData.sort(sortEntities);
+        $("#metadataListTable").html($("#metadataListTemplate").render({
+            set: "saml20-idp-remote",
+            entry: idpData
+        }));
+    }
+
+    function renderSPList() {
+        spData.sort(sortEntities);
+        $("#metadataListTable").html($("#metadataListTemplate").render({
+            set: "saml20-sp-remote",
+            entry: spData
+        }));
+    }
+
+    function fetchMetadata() {
+        $.when($.ajax("saml20-idp-remote.json"), $.ajax("saml20-sp-remote.json")).then(function (idpCallback, spCallback) {
+            idpData = idpCallback[0];
+            spData = spCallback[0];
+
+            // alert(idpData);
+            renderIdPList();
+        }, function (error) {
+            alert("ERROR");
+        });
+    }
+
+    function sortAttributes(a, b) {
+        if (a.enabled && !b.enabled) {
             return -1;
         }
-        if(!a.enabled && b.enabled) {
+        if (!a.enabled && b.enabled) {
             return 1;
         }
-
-        if(a.name && a.name.en && b.name && b.name.en) {
+        return (a.attribute === b.attribute) ? 0 : (a.attribute < b.attribute) ? -1 : 1;
+    }
+    
+    function sortEntities(a, b) {
+        if (a.enabled && !b.enabled) {
+            return -1;
+        }
+        if (!a.enabled && b.enabled) {
+            return 1;
+        }
+        if (a.state && b.state && "prodaccepted" === a.state && "testaccepted" === b.state) {
+            return -1;
+        }
+        if (a.state && b.state && "prodaccepted" === b.state && "testaccepted" === a.state) {
+            return 1;
+        }
+        if (a.name && a.name.en && b.name && b.name.en) {
             return (a.name.en === b.name.en) ? 0 : (a.name.en < b.name.en) ? -1 : 1;
         }
-        if(a.name && a.name.en && (!b.name || !b.name.en)) {
+        if (a.name && a.name.en && (!b.name || !b.name.en)) {
             return (a.name.en === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
         }
-        if((!a.name || !a.name.en) && b.name && b.name.en) {
+        if ((!a.name || !a.name.en) && b.name && b.name.en) {
             return (a.entityid === b.name.en) ? 0 : (a.entityid < b.name.en) ? -1 : 1;
         }
         return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
     }
 
-    function sortAttributes(a, b) {
-        if(a.enabled && !b.enabled) {
-            return -1;
-        }
-        if(!a.enabled && b.enabled) {
-            return 1;
-        }
-        return (a.attribute === b.attribute) ? 0 : (a.attribute < b.attribute) ? -1 : 1;
-    }
-
-    function renderMetadataList(set, searchQuery) {
-        if (searchQuery) {
-            var requestUri = apiEndpoint + "/" + set + "/?searchQuery=" + searchQuery;
-        } else {
-            var requestUri = apiEndpoint + "/" + set + "/";
-        }
-        $.ajax({
-            url: requestUri,
-            dataType: 'json',
-            success: function (data) {
-
-                // sort the entries by name
-                data.sort(sortEntities);
-
-                $("#metadataListTable").html($("#metadataListTemplate").render({
-                    set: set,
-                    entry: data,
-                    searchQuery: searchQuery
-                }));
-            }
-        });
-    }
+    fetchMetadata();
 
     function renderEntity(set, id) {
-        // FIXME: it seems jQuery AJAX calls trims a URL before making the call, this is not always a good idea...
-        $.ajax({
-            url: apiEndpoint + "/" + set + "/entity?id=" + id,
-            dataType: 'json',
-            success: function (data) {
-                if ("saml20-sp-remote" === set) {
-                    // fetching a list of all IdPs
-                    $.ajax({
-                        url: apiEndpoint + "/saml20-idp-remote/",
-                        dataType: 'json',
-                        success: function (idpData) {
+        if ("saml20-sp-remote" === set) {
 
-                            nameIDs = [];
-                            supportedNameIDFormats.forEach(function(v) {
-                                if (data.NameIDFormat === v) {
-                                    nameIDs.push({nameid: v, enabled: true});
-                                } else {
-                                    nameIDs.push({nameid: v, enabled: false});
-                                }
-                            });
+            entry = spData[id];
 
-                            idpList = [];
-                            // add all IdPs to the list
-                            idpData.forEach(function(v) {
-                                idpList.push({entityid: v.entityid, name: v.name, state: v.state, enabled: false});
-                            });
-
-                            if(data.IDPList) {
-                                idpList.forEach(function(v, k) {
-                                    if(-1 !== data.IDPList.indexOf(v.entityid)) {
-                                        idpList[k].enabled = true;
-                                    }
-                                });
-                            }
-
-                            // sort the IdPs by name
-                            idpList.sort(sortEntities);
-
-                            attributeList = [];
-                            // add the "default" attributes to the list
-                            allAttributes.forEach(function(v) {
-                                attributeList.push({attribute: v, enabled: false, custom: false});
-                            });
-
-                            if(data.attributes) {
-                                data.attributes.forEach(function(v, k) {
-                                    // add the attribute to the attributeList if it is not
-                                    // not there, or enable it if it is there
-                                    var idx = allAttributes.indexOf(v);
-                                    if(-1 !== idx) {
-                                        attributeList[idx].enabled = true;
-                                    } else {
-                                        attributeList.push({attribute: v, enabled: true, custom: true});
-                                    }
-                                });
-                            }
-
-                            // sort by enabledness and then alphabetically
-                            attributeList.sort(sortAttributes);
-
-                            // alert(JSON.stringify(idpList));
-                            data.jsonData = JSON.stringify(data, null, 4);
-                            data.identityProviders = idpList;
-                            data.attributeList = attributeList;
-                            data.nameIDs = nameIDs;
-
-                            $("#entityViewModal").html($("#entityViewServiceProviderModalTemplate").render({
-                                set: set,
-                                id: id,
-                                entry: data
-                            }));
-                            $("#entityViewModal").modal('show');
-                        }
+            nameIDs = [];
+            supportedNameIDFormats.forEach(function (v) {
+                if (entry.NameIDFormat === v) {
+                    nameIDs.push({
+                        nameid: v,
+                        enabled: true
+                    });
+                } else {
+                    nameIDs.push({
+                        nameid: v,
+                        enabled: false
                     });
                 }
-                if ("saml20-idp-remote" === set) {
-                    // fetching a list of all SPs
-                    $.ajax({
-                        url: apiEndpoint + "/saml20-sp-remote/",
-                        dataType: 'json',
-                        success: function (spData) {
+            });
 
-                            spList = [];
-                            // add all SPs to the list
-                            spData.forEach(function(v) {
-                                if(-1 === v.IDPList.indexOf(id)) {
-                                    spList.push({entityid: v.entityid, name: v.name, state: v.state, enabled: false});
-                                } else {
-                                    spList.push({entityid: v.entityid, name: v.name, state: v.state, enabled: true});
-                                }
-                            });
+            idpList = [];
+            // add all IdPs to the list
+            idpData.forEach(function (v) {
+                idpList.push({
+                    entityid: v.entityid,
+                    name: v.name,
+                    state: v.state,
+                    enabled: false
+                });
+            });
 
-                            // sort the SPs by name
-                            spList.sort(sortEntities);
-
-                            data.jsonData = JSON.stringify(data, null, 4);
-                            data.serviceProviders = spList;
-                            $("#entityViewModal").html($("#entityViewIdentityProviderModalTemplate").render({
-                                set: set,
-                                id: id,
-                                entry: data
-                            }));
-                            $("#entityViewModal").modal('show');
-                        }
-                    });
-                }
-                // unsupported type, do nothing
+            if (entry.IDPList) {
+                idpList.forEach(function (v, k) {
+                    if (-1 !== entry.IDPList.indexOf(v.entityid)) {
+                        idpList[k].enabled = true;
+                    }
+                });
             }
-        });
-    }
 
-    // IDP ACL
-    // 'IDPList' => array('https://idp1.wayf.dk', 'https://idp2.wayf.dk'),
+            // sort the IdPs by name
+            idpList.sort(sortEntities);
+
+            attributeList = [];
+            // add the "default" attributes to the list
+            allAttributes.forEach(function (v) {
+                attributeList.push({
+                    attribute: v,
+                    enabled: false,
+                    custom: false
+                });
+            });
+
+            if (entry.attributes) {
+                entry.attributes.forEach(function (v, k) {
+                    // add the attribute to the attributeList if it is not
+                    // not there, or enable it if it is there
+                    var idx = allAttributes.indexOf(v);
+                    if (-1 !== idx) {
+                        attributeList[idx].enabled = true;
+                    } else {
+                        attributeList.push({
+                            attribute: v,
+                            enabled: true,
+                            custom: true
+                        });
+                    }
+                });
+            }
+
+            // sort by enabledness and then alphabetically
+            attributeList.sort(sortAttributes);
+
+            // alert(JSON.stringify(idpList));
+            entry.jsonData = JSON.stringify(entry, null, 4);
+            entry.identityProviders = idpList;
+            entry.attributeList = attributeList;
+            entry.nameIDs = nameIDs;
+
+            $("#entityViewModal").html($("#entityViewServiceProviderModalTemplate").render({
+                set: set,
+                id: id,
+                entry: entry
+            }));
+            $("#entityViewModal").modal('show');
+        }
+        if ("saml20-idp-remote" === set) {
+            // fetching a list of all SPs
+            entry = idpData[id];
+
+            spList = [];
+            // add all SPs to the list
+            spData.forEach(function (v) {
+                if (-1 === v.IDPList.indexOf(entry.entityid)) {
+                    spList.push({
+                        entityid: v.entityid,
+                        name: v.name,
+                        state: v.state,
+                        enabled: false
+                    });
+                } else {
+                    spList.push({
+                        entityid: v.entityid,
+                        name: v.name,
+                        state: v.state,
+                        enabled: true
+                    });
+                }
+            });
+
+            // sort the SPs by name
+            spList.sort(sortEntities);
+
+            entry.jsonData = JSON.stringify(entry, null, 4);
+            entry.serviceProviders = spList;
+            $("#entityViewModal").html($("#entityViewIdentityProviderModalTemplate").render({
+                set: set,
+                id: id,
+                entry: entry
+            }));
+            $("#entityViewModal").modal('show');
+
+        }
+        // unsupported type, do nothing
+
+    }
 
     $(document).on('click', '#metadataListTable a', function (event) {
         renderEntity($(this).data('set'), $(this).data('id'));
@@ -174,21 +200,16 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#listIdPs', function (event) {
-        renderMetadataList('saml20-idp-remote');
+        renderIdPList();
         $("ul.nav").children().removeClass("active");
         $(this).parent().addClass("active");
         event.preventDefault();
     });
 
     $(document).on('click', '#listSPs', function (event) {
-        renderMetadataList('saml20-sp-remote');
+        renderSPList();
         $("ul.nav").children().removeClass("active");
         $(this).parent().addClass("active");
-        event.preventDefault();
-    });
-
-    $(document).on('click', '#searchButton', function (event) {
-        renderMetadataList($(this).data('set'), $('#searchTerm').val());
         event.preventDefault();
     });
 
@@ -232,9 +253,4 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
-    function initPage() {
-        renderMetadataList('saml20-idp-remote');
-        $("ul.nav").children().first().addClass("active");
-    }
-    initPage();
 });
