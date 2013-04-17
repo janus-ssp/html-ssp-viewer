@@ -16,6 +16,8 @@
 
         <h1>SAML Configuration</h1>
 
+        <p class="lead">This is a <em>read-only</em> configuration viewer.</p>
+
         <ul class="nav nav-pills">
             <li class="active">
                 <a href="#" id="listIdPs">Identity Providers</a>
@@ -98,8 +100,10 @@
                         </div>
                     </div>
                 </fieldset>
+                {{if entry.UIInfo && entry.UIInfo.Logo && entry.UIInfo.Logo}}
+                    <img src="{{>entry.UIInfo.Logo[0].url}}" width="{{>entry.UIInfo.Logo[0].width}}" height="{{>entry.UIInfo.Logo[0].height}}">
+                {{/if}}
             </form>
-
             <form id="samlForm" class="entryForm hide">
                 <fieldset>
                 <!-- <legend>SAML</legend> -->
@@ -216,6 +220,9 @@
                         {{/if}}
                     </div>
                 </div>
+                {{if entry.UIInfo && entry.UIInfo.Logo && entry.UIInfo.Logo}}
+                    <img src="{{>entry.UIInfo.Logo[0].url}}" width="{{>entry.UIInfo.Logo[0].width}}" height="{{>entry.UIInfo.Logo[0].height}}">
+                {{/if}}
             </form>
 
             <form id="samlForm" class="entryForm hide">
