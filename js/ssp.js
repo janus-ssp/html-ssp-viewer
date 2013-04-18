@@ -237,6 +237,14 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
+    $(document).on('click', '#conextButton', function (event) {
+        $("form.entryForm").hide();
+        $("form#conextForm").show();
+        $("ul.entitynav").children().removeClass("active");
+        $(this).parent().addClass("active");
+        event.preventDefault();
+    });
+    
     $(document).on('click', '#arpButton', function (event) {
         $("form.entryForm").hide();
         $("form#arpForm").show();

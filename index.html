@@ -80,7 +80,9 @@
                 <li>
                     <a href="#" id="aclButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Allowed Service Providers">Allowed SPs</a>
                 </li>
-
+                <li>
+                    <a href="#" id="conextButton" data-id="{{attr:id}}" data-set="{{>set}}" title="OpenConext">OpenConext</a>
+                </li>
                 <li>
                     <a href="#" id="advancedButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Advanced Configuration">Advanced</a>
                 </li>
@@ -170,6 +172,51 @@
                 </fieldset>
             </form>
 
+            <form id="conextForm" class="entryForm hide">
+                <fieldset>
+                 <div class="control-group">
+                    <label class="checkbox">
+                        {{if entry.coin && entry.coin.disable_scoping}}
+                            <input disabled="disabled" type="checkbox" name="disableScoping" checked="checked">
+                        {{else}}
+                            <input disabled="disabled" type="checkbox" name="disableScoping">                        
+                        {{/if}}                    
+                        <span>Disable Scoping</span>
+                    </label>
+
+                    <label class="checkbox">
+                        {{if entry.coin && entry.coin.additional_logging}}
+                            <input disabled="disabled" type="checkbox" name="additionalLogging" checked="checked">
+                        {{else}}
+                            <input disabled="disabled" type="checkbox" name="additionalLogging">                        
+                        {{/if}}                    
+                        <span>Additional Logging</span>
+                    </label>
+                    
+                    <label class="checkbox">
+                        {{if entry.coin && entry.coin.publish_in_edugain}}
+                            <input disabled="disabled" type="checkbox" name="publishInEdugain" checked="checked">
+                        {{else}}
+                            <input disabled="disabled" type="checkbox" name="publishInEdugain">                        
+                        {{/if}}                    
+                        <span>Publish in eduGAIN</span>
+                    </label>
+                 </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="form_SingleSignOnService"><strong>Guest Qualifier</strong></label>
+                        <div class="controls">
+                            <select disabled="disabled" name="guestQualifier">
+                                {{if entry.coin && entry.coin.guest_qualifier}}
+                                        <option value="{{>entry.coin.guest_qualifier}}">{{>entry.coin.guest_qualifier}}</option>                                              
+                                {{/if}}
+                            </select>
+                        </div>
+                    </div>
+                      
+                </fieldset>            
+            </form>
+            
             <form id="advancedForm" class="entryForm hide">
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
@@ -191,19 +238,18 @@
                 <li class="active">
                     <a href="#" id="basicButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Basic Configuration Options">Basic</a>
                 </li>
-
                 <li>
                     <a href="#" id="samlButton" data-id="{{attr:id}}" data-set="{{>set}}" title="SAML Configuration Options">SAML</a>
                 </li>
-
                 <li>
                     <a href="#" id="aclButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Allowed Identity Providers">Allowed IdPs</a>
                 </li>
-
                 <li>
                     <a href="#" id="arpButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Attributes">Attributes</a>
                 </li>
-
+                <li>
+                    <a href="#" id="conextButton" data-id="{{attr:id}}" data-set="{{>set}}" title="OpenConext">OpenConext</a>
+                </li>
                 <li>
                     <a href="#" id="advancedButton" data-id="{{attr:id}}" data-set="{{>set}}" title="Advanced Configuration">Advanced</a>
                 </li>
@@ -320,6 +366,48 @@
                         {{/for}}
                     {{/if}}
                 </fieldset>
+            </form>
+
+            <form id="conextForm" class="entryForm hide">
+                <fieldset>
+
+                    <label class="checkbox">
+                        {{if entry.coin && entry.coin.no_consent_required}}
+                            <input disabled="disabled" type="checkbox" name="noConsentRequired" checked="checked">
+                        {{else}}
+                            <input disabled="disabled" type="checkbox" name="noConsentRequired">                        
+                        {{/if}}                    
+                        <span>No Consent Required</span>
+                    </label>
+                    
+                    <label class="checkbox">
+                        {{if entry.coin && entry.coin.ss && entry.coin.ss.idp_visible_only}}
+                            <input disabled="disabled" type="checkbox" name="idpVisibleOnly" checked="checked">
+                        {{else}}
+                            <input disabled="disabled" type="checkbox" name="idpVisibleOnly">                        
+                        {{/if}}                    
+                        <span>IdP Visible Only</span>
+                    </label>
+                                        
+                    <label class="checkbox">
+                        {{if entry.coin && entry.coin.additional_logging}}
+                            <input disabled="disabled" type="checkbox" name="additionalLogging" checked="checked">
+                        {{else}}
+                            <input disabled="disabled" type="checkbox" name="additionalLogging">                        
+                        {{/if}}                    
+                        <span>Additional Logging</span>
+                    </label>
+                    
+                    <label class="checkbox">
+                        {{if entry.coin && entry.coin.publish_in_edugain}}
+                            <input disabled="disabled" type="checkbox" name="publishInEdugain" checked="checked">
+                        {{else}}
+                            <input disabled="disabled" type="checkbox" name="publishInEdugain">                        
+                        {{/if}}                    
+                        <span>Publish in eduGAIN</span>
+                    </label>
+
+                </fieldset>            
             </form>
 
             <form id="advancedForm" class="entryForm hide">
