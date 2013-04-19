@@ -356,11 +356,11 @@
                             {{/if}}
 
                             {{if enabled && custom}}
-                                <span class="text-error" title="{{>attribute}}">{{>attribute}}</span>
+                                <span class="text-error" title="{{>attribute}}">{{>attribute}}<br></span>
                             {{else enabled}}
-                                <span class="text-info" title="{{>attribute}}">{{>attribute}}</span>
+                                <span class="text-info" title="{{>attribute}}">{{>attribute}}<br></span>
                             {{else}}
-                                <span title="{{>attribute}}">{{>attribute}}</span>
+                                <span title="{{>attribute}}">{{>attribute}}<br></span>
                             {{/if}}
                             </label>
                         {{/for}}
@@ -372,12 +372,12 @@
                 <fieldset>
 
                     <label class="checkbox">
-                        {{if entry.coin && entry.coin.no_consent_required}}
-                            <input disabled="disabled" type="checkbox" name="noConsentRequired" checked="checked">
+                        {{if entry.consent && entry.consent.disable}}
+                            <input disabled="disabled" type="checkbox" name="disableConsent" checked="checked">
                         {{else}}
-                            <input disabled="disabled" type="checkbox" name="noConsentRequired">                        
+                            <input disabled="disabled" type="checkbox" name="disableConsent">                        
                         {{/if}}                    
-                        <span>No Consent Required</span>
+                        <span>Consent for all IdPs disabled</span>
                     </label>
                     
                     <label class="checkbox">
