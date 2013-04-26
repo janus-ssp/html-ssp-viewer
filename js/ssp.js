@@ -95,7 +95,7 @@ $(document).ready(function () {
                     name: v.name,
                     state: v.state,
                     enabled: false,
-                    consentdisable: (v['consent.disable'] && -1 !== v['consent.disable'].indexOf(entry.entityid)) ? true : false
+                    consentdisable: (entry['consent.disable'] || (v['consent.disable'] && -1 !== v['consent.disable'].indexOf(entry.entityid))) ? true : false
                 });
             });
 
@@ -107,8 +107,6 @@ $(document).ready(function () {
                 });
             }
             
-
-
             // sort the IdPs by name
             idpList.sort(sortEntities);
 
