@@ -17,7 +17,7 @@
 
         <h1>SAML Configuration</h1>
 
-        <p class="lead">This is a <em>read-only</em> configuration viewer.</p>
+        <p class="lead">This is a <strong><em>read-only</em></strong> configuration viewer. <strong>Nothing</strong> you do here will have any effect.</p>
 
         <ul class="nav nav-pills">
             <li class="active">
@@ -96,9 +96,9 @@
                         <label class="control-label" for="form_name"><strong>Name</strong></label>
                         <div class="controls">
                             {{if entry.name && entry.name.en}}
-                                <input disabled="disabled" type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name.en}}" placeholder="Name...">
+                                <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name.en}}" placeholder="Name...">
                             {{else}}
-                                <input disabled="disabled" type="text" id="form_name" class="input-block-level" name="name" placeholder="Name...">
+                                <input type="text" id="form_name" class="input-block-level" name="name" placeholder="Name...">
                             {{/if}}
                         </div>
                     </div>
@@ -114,28 +114,28 @@
                     <div class="control-group">
                         <label class="control-label" for="form_entityId"><strong>Entity ID</strong></label>
                         <div class="controls">
-                            <input disabled="disabled" type="text" id="form_entityId" class="input-block-level" name="entityid" value="{{>entry.entityid}}" placeholder="Entity ID...">
+                            <input type="text" id="form_entityId" class="input-block-level" name="entityid" value="{{>entry.entityid}}" placeholder="Entity ID...">
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="form_SingleSignOnService"><strong>Single Signon Service (SSO)</strong></label>
                         <div class="controls">
-                            <input disabled="disabled" type="text" id="form_SingleSignOnService" class="input-block-level" name="SingleSignOnService" value="{{>entry.SingleSignOnService}}" placeholder="SingleSignOnService...">
+                            <input type="text" id="form_SingleSignOnService" class="input-block-level" name="SingleSignOnService" value="{{>entry.SingleSignOnService}}" placeholder="SingleSignOnService...">
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="form_SingleLogoutService"><strong>Single Logout Service (SLO)</strong></label>
                         <div class="controls">
-                            <input disabled="disabled" type="text" id="form_SingleLogoutService" class="input-block-level" name="entityid" value="{{>entry.SingleLogoutService}}" placeholder="SingleLogoutService...">
+                            <input type="text" id="form_SingleLogoutService" class="input-block-level" name="entityid" value="{{>entry.SingleLogoutService}}" placeholder="SingleLogoutService...">
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="form_certFingerprint"><strong>Certificate Fingerprint</strong></label>
                         <div class="controls">
-                            <input disabled="disabled" type="text" id="form_certFingerprint" class="input-block-level" name="certFingerprint" value="{{>entry.certFingerprint}}" placeholder="certFingerprint...">
+                            <input type="text" id="form_certFingerprint" class="input-block-level" name="certFingerprint" value="{{>entry.certFingerprint}}" placeholder="certFingerprint...">
                         </div>
                     </div>
                 </fieldset>
@@ -149,10 +149,13 @@
 
                     {{for entry.serviceProviders}}
                         <label class="checkbox">
+                        {{if consentdisable}}
+                            <i alt="consent disabled" title="consent disabled" class="icon-user"></i>
+                        {{/if}}
                         {{if enabled}}
-                            <input disabled="disabled" type="checkbox" name="enableSP[]" checked="checked" value="{{>entityid}}">
+                            <input type="checkbox" name="enableSP[]" checked="checked" value="{{>entityid}}">
                         {{else}}
-                            <input disabled="disabled" type="checkbox" name="enableSP[]" value="{{>entityid}}">
+                            <input type="checkbox" name="enableSP[]" value="{{>entityid}}">
                         {{/if}}
                         {{if name && name.en}}
 			                {{if state === "prodaccepted"}}
@@ -177,27 +180,27 @@
                  <div class="control-group">
                     <label class="checkbox">
                         {{if entry.coin && entry.coin.disable_scoping}}
-                            <input disabled="disabled" type="checkbox" name="disableScoping" checked="checked">
+                            <input type="checkbox" name="disableScoping" checked="checked">
                         {{else}}
-                            <input disabled="disabled" type="checkbox" name="disableScoping">                        
+                            <input type="checkbox" name="disableScoping">                        
                         {{/if}}                    
                         <span>Disable Scoping</span>
                     </label>
 
                     <label class="checkbox">
                         {{if entry.coin && entry.coin.additional_logging}}
-                            <input disabled="disabled" type="checkbox" name="additionalLogging" checked="checked">
+                            <input type="checkbox" name="additionalLogging" checked="checked">
                         {{else}}
-                            <input disabled="disabled" type="checkbox" name="additionalLogging">                        
+                            <input type="checkbox" name="additionalLogging">                        
                         {{/if}}                    
                         <span>Additional Logging</span>
                     </label>
                     
                     <label class="checkbox">
                         {{if entry.coin && entry.coin.publish_in_edugain}}
-                            <input disabled="disabled" type="checkbox" name="publishInEdugain" checked="checked">
+                            <input type="checkbox" name="publishInEdugain" checked="checked">
                         {{else}}
-                            <input disabled="disabled" type="checkbox" name="publishInEdugain">                        
+                            <input type="checkbox" name="publishInEdugain">                        
                         {{/if}}                    
                         <span>Publish in eduGAIN</span>
                     </label>
@@ -206,7 +209,7 @@
                     <div class="control-group">
                         <label class="control-label" for="form_SingleSignOnService"><strong>Guest Qualifier</strong></label>
                         <div class="controls">
-                            <select disabled="disabled" name="guestQualifier">
+                            <select name="guestQualifier">
                                 {{if entry.coin && entry.coin.guest_qualifier}}
                                         <option value="{{>entry.coin.guest_qualifier}}">{{>entry.coin.guest_qualifier}}</option>                                              
                                 {{/if}}
@@ -220,7 +223,7 @@
             <form id="advancedForm" class="entryForm hide">
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
-                    <textarea disabled="disabled" class="input-block-level" rows="10" id="jsonData" name="jsonData">{{>entry.jsonData}}</textarea>
+                    <textarea class="input-block-level" rows="10" id="jsonData" name="jsonData">{{>entry.jsonData}}</textarea>
                 </fieldset>
             </form>
 
@@ -261,9 +264,9 @@
                     <label class="control-label" for="form_name"><strong>Name</strong></label>
                     <div class="controls">
                         {{if entry.name && entry.name.en}}
-                            <input disabled="disabled" type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name.en}}" placeholder="Name...">
+                            <input type="text" id="form_name" class="input-block-level" name="name" value="{{>entry.name.en}}" placeholder="Name...">
                         {{else}}
-                            <input disabled="disabled" type="text" id="form_name" class="input-block-level" name="name" placeholder="Name...">
+                            <input type="text" id="form_name" class="input-block-level" name="name" placeholder="Name...">
                         {{/if}}
                     </div>
                 </div>
@@ -278,21 +281,21 @@
                 <div class="control-group">
                     <label class="control-label" for="form_entityId"><strong>Entity ID</strong></label>
                     <div class="controls">
-                        <input disabled="disabled" type="text" id="form_entityId" class="input-block-level" name="entityid" value="{{>entry.entityid}}" placeholder="Entity ID...">
+                        <input type="text" id="form_entityId" class="input-block-level" name="entityid" value="{{>entry.entityid}}" placeholder="Entity ID...">
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label" for="form_AssertionConsumerService"><strong>AssertionConsumerService</strong></label>
                     <div class="controls">
-                        <input disabled="disabled" type="text" id="form_AssertionConsumerService" class="input-block-level" name="AssertionConsumerService" value="{{>entry.AssertionConsumerService}}" placeholder="AssertionConsumerService...">
+                        <input type="text" id="form_AssertionConsumerService" class="input-block-level" name="AssertionConsumerService" value="{{>entry.AssertionConsumerService}}" placeholder="AssertionConsumerService...">
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label" for="form_NameIDFormat"><strong>NameIDFormat</strong></label>
                     <div class="controls">
-                        <select disabled="disabled" id="form_NameIDFormat" class="input-block-level" name="NameIDFormat">
+                        <select id="form_NameIDFormat" class="input-block-level" name="NameIDFormat">
                         {{for entry.nameIDs}}
                             {{if enabled}}
                                 <option value="{{>nameid}}" selected="selected">{{>nameid}}</option>
@@ -312,9 +315,9 @@
                     {{for entry.identityProviders}}
                         <label class="checkbox">
                         {{if enabled}}
-                            <input disabled="disabled" type="checkbox" name="IDPList[]" checked="checked" value="{{>entityid}}">
+                            <input type="checkbox" name="IDPList[]" checked="checked" value="{{>entityid}}">
                         {{else}}
-                            <input disabled="disabled" type="checkbox" name="IDPList[]" value="{{>entityid}}">
+                            <input type="checkbox" name="IDPList[]" value="{{>entityid}}">
                         {{/if}}
                         {{if name && name.en}}
 			                {{if state === "prodaccepted"}}
@@ -337,7 +340,7 @@
             <form id="arpForm" class="entryForm hide">
             <p class="text-success">Select the attributes the service is allowed to receive.</p>
                 <fieldset>
-                    <select disabled="disabled" name="arpType">
+                    <select name="arpType">
                     {{if false === entry.attributes}}
                         <option value="no_attributes">No Attributes</option>
                     {{else 0 === entry.attributes.length}}
@@ -350,9 +353,9 @@
                         {{for entry.attributeList}}
                             <label class="checkbox">
                             {{if enabled}}
-                                <input disabled="disabled" type="checkbox" name="attributes[]" checked="checked" value="{{>attribute}}">
+                                <input type="checkbox" name="attributes[]" checked="checked" value="{{>attribute}}">
                             {{else}}
-                                <input disabled="disabled" type="checkbox" name="attributes[]" value="{{>attribute}}">
+                                <input type="checkbox" name="attributes[]" value="{{>attribute}}">
                             {{/if}}
 
                             {{if enabled && custom}}
@@ -372,37 +375,37 @@
                 <fieldset>
 
                     <label class="checkbox">
-                        {{if entry.consent && entry.consent.disable}}
-                            <input disabled="disabled" type="checkbox" name="disableConsent" checked="checked">
+                        {{if entry['consent.disable']}}
+                            <input type="checkbox" name="disableConsent" checked="checked">
                         {{else}}
-                            <input disabled="disabled" type="checkbox" name="disableConsent">                        
+                            <input type="checkbox" name="disableConsent">                        
                         {{/if}}                    
                         <span>Consent for all IdPs disabled</span>
                     </label>
                     
                     <label class="checkbox">
                         {{if entry.coin && entry.coin.ss && entry.coin.ss.idp_visible_only}}
-                            <input disabled="disabled" type="checkbox" name="idpVisibleOnly" checked="checked">
+                            <input type="checkbox" name="idpVisibleOnly" checked="checked">
                         {{else}}
-                            <input disabled="disabled" type="checkbox" name="idpVisibleOnly">                        
+                            <input type="checkbox" name="idpVisibleOnly">                        
                         {{/if}}                    
                         <span>IdP Visible Only</span>
                     </label>
                                         
                     <label class="checkbox">
                         {{if entry.coin && entry.coin.additional_logging}}
-                            <input disabled="disabled" type="checkbox" name="additionalLogging" checked="checked">
+                            <input type="checkbox" name="additionalLogging" checked="checked">
                         {{else}}
-                            <input disabled="disabled" type="checkbox" name="additionalLogging">                        
+                            <input type="checkbox" name="additionalLogging">                        
                         {{/if}}                    
                         <span>Additional Logging</span>
                     </label>
                     
                     <label class="checkbox">
                         {{if entry.coin && entry.coin.publish_in_edugain}}
-                            <input disabled="disabled" type="checkbox" name="publishInEdugain" checked="checked">
+                            <input type="checkbox" name="publishInEdugain" checked="checked">
                         {{else}}
-                            <input disabled="disabled" type="checkbox" name="publishInEdugain">                        
+                            <input type="checkbox" name="publishInEdugain">                        
                         {{/if}}                    
                         <span>Publish in eduGAIN</span>
                     </label>
@@ -413,7 +416,7 @@
             <form id="advancedForm" class="entryForm hide">
                 <fieldset>
                 <!-- <legend>ACL</legend> -->
-                    <textarea disabled="disabled" class="input-block-level" rows="10" id="jsonData" name="jsonData">{{>entry.jsonData}}</textarea>
+                    <textarea class="input-block-level" rows="10" id="jsonData" name="jsonData">{{>entry.jsonData}}</textarea>
                 </fieldset>
             </form>
 

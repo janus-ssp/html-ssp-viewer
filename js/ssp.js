@@ -165,12 +165,14 @@ $(document).ready(function () {
                         entityid: v.entityid,
                         name: v.name,
                         state: v.state,
+                        consentdisable: v['consent.disable'],
                         enabled: false
                     });
                 } else {
                     spList.push({
                         entityid: v.entityid,
                         name: v.name,
+                        consentdisable: v['consent.disable'],
                         state: v.state,
                         enabled: true
                     });
