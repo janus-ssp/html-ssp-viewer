@@ -72,7 +72,6 @@ $(document).ready(function () {
         if ("saml20-sp-remote" === set) {
 
             entry = spData[id];
-
             nameIDs = [];
             supportedNameIDFormats.forEach(function (v) {
                 if (entry.NameIDFormat === v) {
@@ -95,7 +94,8 @@ $(document).ready(function () {
                     entityid: v.entityid,
                     name: v.name,
                     state: v.state,
-                    enabled: false
+                    enabled: false,
+                    consentdisable: (v['consent.disable'] && -1 !== v['consent.disable'].indexOf(entry.entityid)) ? true : false
                 });
             });
 
@@ -106,6 +106,8 @@ $(document).ready(function () {
                     }
                 });
             }
+            
+
 
             // sort the IdPs by name
             idpList.sort(sortEntities);

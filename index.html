@@ -314,6 +314,9 @@
                 <!-- <legend>ACL</legend> -->
                     {{for entry.identityProviders}}
                         <label class="checkbox">
+                        {{if consentdisable}}
+                            <i alt="consent disabled" title="consent disabled" class="icon-user"></i>
+                        {{/if}}
                         {{if enabled}}
                             <input type="checkbox" name="IDPList[]" checked="checked" value="{{>entityid}}">
                         {{else}}
