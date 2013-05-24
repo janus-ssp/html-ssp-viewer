@@ -55,15 +55,15 @@ $(document).ready(function () {
             return 1;
         }
         if (a.name && a.name.en && b.name && b.name.en) {
-            return (a.name.en === b.name.en) ? 0 : (a.name.en < b.name.en) ? -1 : 1;
+            return (a.name.en.toLowerCase() === b.name.en.toLowerCase()) ? 0 : (a.name.en.toLowerCase() < b.name.en.toLowerCase()) ? -1 : 1;
         }
         if (a.name && a.name.en && (!b.name || !b.name.en)) {
-            return (a.name.en === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+            return (a.name.en.toLowerCase() === b.entityid.toLowerCase()) ? 0 : (a.entityid.toLowerCase() < b.entityid.toLowerCase()) ? -1 : 1;
         }
         if ((!a.name || !a.name.en) && b.name && b.name.en) {
-            return (a.entityid === b.name.en) ? 0 : (a.entityid < b.name.en) ? -1 : 1;
+            return (a.entityid.toLowerCase() === b.name.en.toLowerCase()) ? 0 : (a.entityid.toLowerCase() < b.name.en.toLowerCase()) ? -1 : 1;
         }
-        return (a.entityid === b.entityid) ? 0 : (a.entityid < b.entityid) ? -1 : 1;
+        return (a.entityid.toLowerCase() === b.entityid.toLowerCase()) ? 0 : (a.entityid.toLowerCase() < b.entityid.toLowerCase()) ? -1 : 1;
     }
 
     fetchMetadata();
