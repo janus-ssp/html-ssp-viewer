@@ -2,12 +2,14 @@ $(document).ready(function () {
 
     var idpData;
     var spData;
+    var logData;
 
     function renderIdPList() {
         idpData.sort(sortEntities);
         $("#metadataListTable").html($("#metadataListTemplate").render({
             set: "saml20-idp-remote",
-            entry: idpData
+            entry: idpData,
+            logs: logData
         }));
     }
 
@@ -15,16 +17,17 @@ $(document).ready(function () {
         spData.sort(sortEntities);
         $("#metadataListTable").html($("#metadataListTemplate").render({
             set: "saml20-sp-remote",
-            entry: spData
+            entry: spData,
+            logs: logData
         }));
     }
 
     function fetchMetadata() {
-        $.when($.ajax("saml20-idp-remote.json"), $.ajax("saml20-sp-remote.json")).then(function (idpCallback, spCallback) {
+        $.when($.ajax("saml20-idp-remote.json"), $.ajax("saml20-sp-remote.json"), $.ajax("entityLog.json")).then(function (idpCallback, spCallback, logCallback) {
             idpData = idpCallback[0];
             spData = spCallback[0];
+            logData = logCallback[0];
 
-            // alert(idpData);
             renderIdPList();
         }, function (error) {
             alert("ERROR");
@@ -149,7 +152,8 @@ $(document).ready(function () {
             $("#entityViewModal").html($("#entityViewServiceProviderModalTemplate").render({
                 set: set,
                 id: id,
-                entry: entry
+                entry: entry,
+                logs: (logData[set][spData[id].entityid]) ? logData[set][spData[id].entityid] : []
             }));
             $("#entityViewModal").modal('show');
         }
@@ -184,10 +188,12 @@ $(document).ready(function () {
 
             entry.jsonData = JSON.stringify(entry, null, 4);
             entry.serviceProviders = spList;
+
             $("#entityViewModal").html($("#entityViewIdentityProviderModalTemplate").render({
                 set: set,
                 id: id,
-                entry: entry
+                entry: entry,
+                logs: (logData[set][idpData[id].entityid]) ? logData[set][idpData[id].entityid] : []
             }));
             $("#entityViewModal").modal('show');
 
@@ -258,6 +264,14 @@ $(document).ready(function () {
     $(document).on('click', '#advancedButton', function (event) {
         $("form.entryForm").hide();
         $("form#advancedForm").show();
+        $("ul.entitynav").children().removeClass("active");
+        $(this).parent().addClass("active");
+        event.preventDefault();
+    });
+
+    $(document).on('click', '#logButton', function (event) {
+        $("form.entryForm").hide();
+        $("form#logForm").show();
         $("ul.entitynav").children().removeClass("active");
         $(this).parent().addClass("active");
         event.preventDefault();
