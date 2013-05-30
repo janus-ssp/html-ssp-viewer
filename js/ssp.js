@@ -4,6 +4,36 @@ $(document).ready(function () {
     var spData;
     var logData;
 
+    function renderErrorLog() {
+        var errorLog = [];
+        for(var k in logData['saml20-idp-remote']) {
+            var ld = logData['saml20-idp-remote'][k];
+            if("prodaccepted" === ld.state) {
+                ld['messages'].forEach(function(v1) {
+                    if("ERROR" === v1.level) {
+                        errorLog.push( { eid: ld.eid, type: 'saml20-idp-remote', message: v1.message, entityid: k, name: ld.name});
+                    }
+                });
+            }
+        }
+        for(var k in logData['saml20-sp-remote']) {
+            var ld = logData['saml20-sp-remote'][k];
+            if("prodaccepted" === ld.state) {
+                ld['messages'].forEach(function(v1) {
+                    if("ERROR" === v1.level) {
+                        errorLog.push( { eid: ld.eid, type: 'saml20-sp-remote', message: v1.message, entityid: k, name: ld.name});
+                    }
+                });
+            }
+        }
+
+        if(0 !== errorLog.length) {
+            $("#errorLog").html($("#errorLogTemplate").render({
+                errorLog: errorLog
+            }));
+        }
+    }
+
     function renderIdPList() {
         idpData.sort(sortEntities);
         $("#metadataListTable").html($("#metadataListTemplate").render({
@@ -28,6 +58,7 @@ $(document).ready(function () {
             spData = spCallback[0];
             logData = logCallback[0];
 
+            renderErrorLog();
             renderIdPList();
         }, function (error) {
             alert("ERROR");
