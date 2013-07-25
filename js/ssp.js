@@ -3,7 +3,8 @@ $(document).ready(function () {
     var idpData;
     var spData;
     var logData;
-
+    var parsedMetadata;
+    
     function renderErrorLog() {
         var errorLog = [];
         for(var k in logData['saml20-idp-remote']) {
@@ -11,7 +12,7 @@ $(document).ready(function () {
             if("prodaccepted" === ld.state) {
                 ld['messages'].forEach(function(v1) {
                     if("ERROR" === v1.level) {
-                        errorLog.push( { eid: ld.eid, type: 'saml20-idp-remote', message: v1.message, entityid: k, name: ld.name});
+                        errorLog.push( { eid: ld.eid, type: 'saml20-idp-remote', md: JSON.stringify(parsedMetadata['saml20-idp-remote'][k], null, "  "), message: v1.message, entityid: k, name: ld.name});
                     }
                 });
             }
@@ -53,11 +54,11 @@ $(document).ready(function () {
     }
 
     function fetchMetadata() {
-        $.when($.ajax("saml20-idp-remote.json"), $.ajax("saml20-sp-remote.json"), $.ajax("entityLog.json")).then(function (idpCallback, spCallback, logCallback) {
+        $.when($.ajax("saml20-idp-remote.json"), $.ajax("saml20-sp-remote.json"), $.ajax("entityLog.json"), $.ajax("parsed-metadata.json")).then(function (idpCallback, spCallback, logCallback, mdCallback) {
             idpData = idpCallback[0];
             spData = spCallback[0];
             logData = logCallback[0];
-
+            parsedMetadata = mdCallback[0];
             renderErrorLog();
             renderIdPList();
         }, function (error) {
