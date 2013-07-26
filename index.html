@@ -47,7 +47,7 @@
         <h2>Error Log</h2>
         <table class="table table-striped table-bordered">
         {{for errorLog}}
-            <tr><td>{{>type}}</td><td><span title="{{>entityid}}">{{>name}}</span></td><td><span class="text-error">{{>message}}</span></td>
+            <tr><td>{{>type}}</td><td><a target="_blank" href="https://serviceregistry.surfconext.nl/simplesaml/module.php/janus/editentity.php?eid={{>eid}}"><span title="{{>entityid}}">{{>name}}</span></a></td><td><span class="text-error">{{>message}}</span></td>
             <td><button class="btn btn-primary" type="button" data-toggle="modal" data-target="#md{{:#getIndex()}}">Show Metadata</button></td></tr>
                 <div id="md{{:#getIndex()}}" class="modal hide fade">
                 <div class="modal-header">
