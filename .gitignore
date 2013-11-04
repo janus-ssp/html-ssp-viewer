@@ -1,3 +1,2 @@
-ext/
-config/config.js
-config/attributes.js
+/bower_components
+/config/config.js
