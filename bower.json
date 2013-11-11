@@ -1,0 +1,7 @@
+{
+  "name": "html-manage-ssp",
+  "dependencies": {
+    "bootstrap": "~2.3.2",
+    "jsrender": "~1.0.0-beta"
+  }
+}
